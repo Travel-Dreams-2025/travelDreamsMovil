@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import com.example.traveldreamsapp.models.Destinos;
 import com.example.traveldreamsapp.models.RegisterRequest;
 import com.example.traveldreamsapp.models.RegisterResponse;
+import com.example.traveldreamsapp.models.PasswordResetRequest;
+
 
 import java.util.List;
 import retrofit2.http.Header;
@@ -28,6 +30,9 @@ public interface ApiService {
 
     @POST("api/v1/register/")
     Call<RegisterResponse> registerUser(@Body RegisterRequest registerRequest);
+
+    @POST("password-reset/")
+    Call<Void> sendPasswordResetEmail(@Body PasswordResetRequest request);
 
     @GET("api/v1/usuarios/")
     Call<List<User>> getUsuarios();
