@@ -28,7 +28,7 @@ public interface ApiService {
     @POST("api/v1/login/")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
 
-    @POST("api/v1/register/")
+    @POST("api/v1/auth/register/") // Endpoint de registro actualizado [cite: 1]
     Call<RegisterResponse> registerUser(@Body RegisterRequest registerRequest);
 
     @POST("password-reset/")
