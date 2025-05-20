@@ -175,7 +175,8 @@ public class RegistroActivity extends AppCompatActivity {
                     try {
                         // Leemos el error body como un String
                         String errorBody = response.errorBody().string();
-                        if (response.code() == 409 || errorBody.contains("Duplicate entry")) {
+                        // Se verifica el código 400 (Bad Request) o el mensaje de duplicado
+                        if (response.code() == 400 && errorBody.contains("email")) {
                             Toast.makeText(RegistroActivity.this, "Usuario ya registrado", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(RegistroActivity.this, "Error en el registro", Toast.LENGTH_SHORT).show();
