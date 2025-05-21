@@ -19,16 +19,18 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ApiService {
-    @GET("api/v1/destinos/")
+    // Endpoint para obtener todos los destinos
+    @GET("destinos/") // Ruta actualizada [cite: 4]
     Call<List<Destinos>> getDestinos();
 
-    @GET("api/v1/destinos/{id_destino}")
+    // Endpoint para obtener un destino por ID
+    @GET("destinos/{id_destino}") // Ruta actualizada [cite: 4]
     Call<Destinos> getDestinoById(@Path("id_destino") int id);
 
     @POST("api/v1/login/")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
 
-    @POST("api/v1/auth/register/") // Endpoint de registro actualizado [cite: 1]
+    @POST("auth/register/") // Endpoint de registro actualizado [cite: 1]
     Call<RegisterResponse> registerUser(@Body RegisterRequest registerRequest);
 
     @POST("password-reset/")
