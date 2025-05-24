@@ -93,6 +93,9 @@
     <string name="descripcion_destino">Descripción corta del destino</string>
     <string name="precio_destino">$00.00</string>
     <string name="boton_comprar">Comprar</string>
+    <string name="fecha_salida">Fecha de Salida</string>
+    <string name="cantidad_Disponible">Cupos</string>
+    <string name="boton_mas_detalles">Más Detalles</string>
 
     <!--Destinos - 2da pantalla  - Content Description-->
     <string name="descripcion_imagen">Imagen del destino</string>
