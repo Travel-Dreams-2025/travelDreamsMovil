@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Nombre -->
+    <!-- Nombre. -->
     <EditText
         android:id="@+id/et_name"
         android:layout_width="0dp"
