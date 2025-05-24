@@ -6,16 +6,20 @@ public class Destinos {
     private String descripcion;
     private double precio_Destino;
     private String image;
+    private String fecha_salida;
+    private int cantidad_Disponible;
 
     public Destinos() {
     }
 
-    public Destinos(int id_destino, String nombre_Destino, String descripcion, double precio_Destino, String image) {
+    public Destinos(int id_destino, String nombre_Destino, String descripcion, double precio_Destino, String image, String fechaSalida, int cupos) {
         this.id_destino = id_destino;
         this.nombre_Destino = nombre_Destino;
         this.descripcion = descripcion;
         this.precio_Destino = precio_Destino;
         this.image = image;
+        this.fecha_salida = fechaSalida;
+        this.cantidad_Disponible = cupos;
     }
 
     public int getId_destino() {
@@ -56,5 +60,21 @@ public class Destinos {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getFecha_salida() {
+        return fecha_salida;
+    }
+
+    public void setFecha_salida(String fecha_salida) {
+        this.fecha_salida = fecha_salida;
+    }
+
+    public int getCantidad_Disponible() {
+        return cantidad_Disponible;
+    }
+
+    public void setCantidad_Disponible(int cantidad_Disponible) {
+        this.cantidad_Disponible = cantidad_Disponible;
     }
 }
