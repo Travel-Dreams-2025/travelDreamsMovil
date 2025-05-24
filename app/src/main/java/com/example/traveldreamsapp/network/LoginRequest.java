@@ -1,7 +1,13 @@
 package com.example.traveldreamsapp.network;
 
+import com.google.gson.annotations.SerializedName;
+
 public class LoginRequest {
+
+    @SerializedName("email")
     private String email;
+
+    @SerializedName("password")
     private String password;
 
     public LoginRequest(String email, String password) {
@@ -9,7 +15,6 @@ public class LoginRequest {
         this.password = password;
     }
 
-    // Getters
     public String getEmail() {
         return email;
     }
