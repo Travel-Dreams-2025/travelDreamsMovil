@@ -16,7 +16,15 @@ public class User {
     @SerializedName("telefono")
     private String phone;
 
-    // Métodos getters
+    // Constructor con parámetros
+    public User(String username, String surname, String email, String phone) {
+        this.username = username;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+    }
+
+    // Getters
     public String getUsername() {
         return username;
     }
@@ -31,5 +39,21 @@ public class User {
 
     public String getPhone() {
         return phone;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

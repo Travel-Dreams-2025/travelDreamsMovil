@@ -38,6 +38,8 @@
         <activity
             android:name=".RecoveryPasswordActivity"
             android:exported="true" />
+        <activity android:name=".PerfilActivity" />
+        <activity android:name=".EditDataActivity" />
     </application>
 
 </manifest>
