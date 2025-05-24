@@ -4,10 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +17,7 @@ import com.example.traveldreamsapp.network.LoginRequest;
 import com.example.traveldreamsapp.network.LoginResponse;
 
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText editTextUsername;
+    private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonLogin;
     private TextView forgotPassword;
@@ -35,36 +35,39 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SessionManager sessionManager = new SessionManager(this);
+        String token = sessionManager.getToken();
+        Log.d("LoginActivity", "Token recuperado: " + token);
+
+        if (token != null && !token.isEmpty()) {
+            startActivity(new Intent(this, PerfilActivity.class));
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_login);
 
-        editTextUsername = findViewById(R.id.editTextUsername);
+        editTextEmail = findViewById(R.id.editTextUsername); // Cambiar el ID si hace falta
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
-        forgotPassword = findViewById(R.id.forgotPassword); // Asocia el TextView de recuperación de contraseña
+        forgotPassword = findViewById(R.id.forgotPassword);
 
-        // Configurar el listener para "Olvidé mi contraseña"
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RecoveryPasswordActivity.class);
-                startActivity(intent);
-            }
+        forgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RecoveryPasswordActivity.class);
+            startActivity(intent);
         });
 
-
-
-
-        // Redirección al registro al hacer clic en "registrarse"
         TextView registerPrompt = findViewById(R.id.registerPrompt);
         registerPrompt.setOnClickListener(v -> {
             Intent registerIntent = new Intent(LoginActivity.this, RegistroActivity.class);
             startActivity(registerIntent);
         });
 
-        // Configurar Retrofit
         OkHttpClient client = new OkHttpClient.Builder().build();
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://dtapp.pythonanywhere.com/")
+                .baseUrl("https://dreamtravel.pythonanywhere.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -72,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         ApiService apiService = retrofit.create(ApiService.class);
 
         buttonLogin.setOnClickListener(v -> {
-            String email = editTextUsername.getText().toString().trim();
+            String email = editTextEmail.getText().toString().trim();
             String password = editTextPassword.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
@@ -80,7 +83,6 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            // Crear solicitud de inicio de sesión
             LoginRequest loginRequest = new LoginRequest(email, password);
             Call<LoginResponse> call = apiService.login(loginRequest);
 
@@ -89,40 +91,52 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         String token = response.body().getAccessToken();
-                        Toast.makeText(LoginActivity.this, "Login Exitoso, bienvenido!", Toast.LENGTH_SHORT).show();
 
-                        // Redirigir después de 1.5 segundos
+                        // Guardamos el token
+                        sessionManager.saveToken(token);
+
+                        Toast.makeText(LoginActivity.this, "Login exitoso, bienvenido!", Toast.LENGTH_SHORT).show();
+                        Log.d("TOKEN_SAVE", "Token guardado: " + token);
+
                         new Handler().postDelayed(() -> {
-                            Intent intent = new Intent(LoginActivity.this, NavigatorDrawer.class);
+                            Intent intent = new Intent(LoginActivity.this, PerfilActivity.class);
                             startActivity(intent);
-                            finish(); // Cierra la pantalla de login
+                            finish();
                         }, 1500);
                     } else {
-                        Toast.makeText(LoginActivity.this, "Error en el inicio de sesión, compruebe su usuario y/o contraseña", Toast.LENGTH_SHORT).show();
+                        try {
+                            ResponseBody errorBody = response.errorBody();
+                            if (errorBody != null) {
+                                String errorMsg = errorBody.string();
+                                Log.e("LOGIN_ERROR", errorMsg);
+                                Toast.makeText(LoginActivity.this, "Error: " + errorMsg, Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Error desconocido del servidor", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Log.e("LOGIN_ERROR", "No se pudo leer el cuerpo del error", e);
+                            Toast.makeText(LoginActivity.this, "Error al procesar respuesta", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    Toast.makeText(LoginActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("LOGIN_FAILURE", t.getMessage(), t);
                 }
             });
         });
     }
 
-
-    // Método para alternar la visibilidad de la contraseña
+    // Método para alternar visibilidad de la contraseña (si querés usarlo)
     private void togglePasswordVisibility() {
         if (isPasswordVisible) {
-            // Ocultar contraseña
             editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
         } else {
-            // Mostrar contraseña
             editTextPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-
         }
         isPasswordVisible = !isPasswordVisible;
-        editTextPassword.setSelection(editTextPassword.length()); // Mantener el cursor al final
+        editTextPassword.setSelection(editTextPassword.length());
     }
 }
