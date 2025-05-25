@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,13 +20,14 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.PUT;
+import retrofit2.http.PATCH;
 
 import java.io.IOException;
 
 public class EditDataActivity extends AppCompatActivity {
 
-    private EditText etName, etSurname, etAddress, etPhone;
+    private TextView tvName, tvSurname, tvDni;
+    private EditText etAddress, etPhone;
     private Button btnSaveData;
 
     @Override
@@ -33,8 +35,9 @@ public class EditDataActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_perfil);
 
-        etName = findViewById(R.id.et_name);
-        etSurname = findViewById(R.id.et_surname);
+        tvName = findViewById(R.id.tv_name);
+        tvSurname = findViewById(R.id.tv_surname);
+        tvDni = findViewById(R.id.tv_dni);
         etAddress = findViewById(R.id.et_address);
         etPhone = findViewById(R.id.et_phone);
         btnSaveData = findViewById(R.id.btn_save_data);
@@ -45,38 +48,27 @@ public class EditDataActivity extends AppCompatActivity {
         String surnameExtra = intent.getStringExtra("surname");
         String addressExtra = intent.getStringExtra("address");
         String phoneExtra = intent.getStringExtra("phone");
+        String dniExtra = intent.getStringExtra("dni");
 
-        etName.setText(nameExtra);
-        etSurname.setText(surnameExtra);
+        // Mostrar datos no editables
+        tvName.setText(nameExtra);
+        tvSurname.setText(surnameExtra);
+        tvDni.setText(dniExtra);
+
+        // Mostrar datos editables
         etAddress.setText(addressExtra);
         etPhone.setText(phoneExtra);
 
-        // Borrar texto al enfocar si coincide con el original
-        setClearOnFocus(etName, nameExtra);
-        setClearOnFocus(etSurname, surnameExtra);
-        setClearOnFocus(etAddress, addressExtra);
-        setClearOnFocus(etPhone, phoneExtra);
-
         btnSaveData.setOnClickListener(v -> {
-            String name = etName.getText().toString().trim();
-            String surname = etSurname.getText().toString().trim();
             String address = etAddress.getText().toString().trim();
             String phone = etPhone.getText().toString().trim();
 
-            if (name.isEmpty() || surname.isEmpty() || address.isEmpty()) {
-                Toast.makeText(EditDataActivity.this, "Nombre, Apellido y dirección son obligatorios", Toast.LENGTH_SHORT).show();
+            if (address.isEmpty()) {
+                Toast.makeText(EditDataActivity.this, "La dirección es obligatoria", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            actualizarPerfil(name, surname, address, phone);
-        });
-    }
-
-    private void setClearOnFocus(EditText editText, String originalValue) {
-        editText.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus && editText.getText().toString().equals(originalValue)) {
-                editText.setText("");
-            }
+            actualizarPerfil(address, phone, dniExtra);
         });
     }
 
@@ -99,25 +91,23 @@ public class EditDataActivity extends AppCompatActivity {
     }
 
     public interface ApiService {
-        @PUT("api/v1/user/profile/")
+        @PATCH("api/v1/profiles/me/update/")
         Call<Void> updateUserProfile(@Body UpdateProfileRequest body);
     }
 
     public static class UpdateProfileRequest {
-        private String nombre;
-        private String apellido;
-        private String direccion;
-        private String telefono;
+        private String address;
+        private String telephone;
+        private String dni;
 
-        public UpdateProfileRequest(String nombre, String apellido, String direccion, String telefono) {
-            this.nombre = nombre;
-            this.apellido = apellido;
-            this.direccion = direccion;
-            this.telefono = telefono;
+        public UpdateProfileRequest(String address, String telephone, String dni) {
+            this.address = address;
+            this.telephone = telephone;
+            this.dni = dni;
         }
     }
 
-    private void actualizarPerfil(String nombre, String apellido, String direccion, String telefono) {
+    private void actualizarPerfil(String address, String telephone, String dni) {
         SessionManager sessionManager = new SessionManager(this);
         String token = sessionManager.getToken();
         Log.d("EditDataActivity", "Token leído de SharedPreferences: " + token);
@@ -139,7 +129,7 @@ public class EditDataActivity extends AppCompatActivity {
 
         ApiService apiService = retrofit.create(ApiService.class);
 
-        UpdateProfileRequest request = new UpdateProfileRequest(nombre, apellido, direccion, telefono);
+        UpdateProfileRequest request = new UpdateProfileRequest(address, telephone, dni);
 
         Call<Void> call = apiService.updateUserProfile(request);
 
@@ -149,20 +139,23 @@ public class EditDataActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(EditDataActivity.this, "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show();
                     Intent resultIntent = new Intent();
-                    resultIntent.putExtra("name", nombre);
-                    resultIntent.putExtra("surname", apellido);
-                    resultIntent.putExtra("address", direccion);
-                    resultIntent.putExtra("phone", telefono);
+                    resultIntent.putExtra("name", tvName.getText().toString());
+                    resultIntent.putExtra("surname", tvSurname.getText().toString());
+                    resultIntent.putExtra("address", address);
+                    resultIntent.putExtra("phone", telephone);
+                    resultIntent.putExtra("dni", dni);
                     setResult(RESULT_OK, resultIntent);
                     finish();
                 } else {
-                    Toast.makeText(EditDataActivity.this, "Error al actualizar perfil", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditDataActivity.this, "Error al actualizar perfil. Código: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Log.e("EditDataActivity", "Error en la respuesta: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(EditDataActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditDataActivity.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("EditDataActivity", "Error de conexión", t);
             }
         });
     }

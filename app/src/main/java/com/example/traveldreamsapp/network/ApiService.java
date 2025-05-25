@@ -14,17 +14,17 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
+import retrofit2.http.PATCH;
 import retrofit2.http.Path;
 
 import com.google.gson.annotations.SerializedName;
 
 public interface ApiService {
 
-    @GET("destinos/") // Ruta actualizada [cite: 4]
+    @GET("destinos/")
     Call<List<Destinos>> getDestinos();
 
-    @GET("destinos/{id_destino}") // Ruta actualizada [cite: 4]
+    @GET("destinos/{id_destino}")
     Call<Destinos> getDestinoById(@Path("id_destino") int id);
 
     @POST("api/v1/auth/login/")
@@ -39,35 +39,29 @@ public interface ApiService {
     @GET("api/v1/usuarios/")
     Call<List<User>> getUsuarios();
 
-    // Método para obtener el perfil del usuario actual
     @GET("api/v1/profiles/me/")
     Call<UserProfileResponse> getUserProfile(@Header("Authorization") String token);
 
-    // Método para actualizar perfil (PUT) con token en header
-    @PUT("api/v1/profiles/me/")
+    @PATCH("api/v1/profiles/me/update/")
     Call<UserProfileResponse> updateUserProfile(
             @Header("Authorization") String token,
             @Body UpdateProfileRequest request
     );
 
     class UpdateProfileRequest {
-        @SerializedName("first_name")
-        private String nombre;
-
-        @SerializedName("last_name")
-        private String apellido;
-
         @SerializedName("address")
         private String direccion;
 
-        @SerializedName("phone")
+        @SerializedName("telephone")
         private String telefono;
 
-        public UpdateProfileRequest(String nombre, String apellido, String direccion, String telefono) {
-            this.nombre = nombre;
-            this.apellido = apellido;
+        @SerializedName("dni")
+        private String dni;
+
+        public UpdateProfileRequest(String direccion, String telefono, String dni) {
             this.direccion = direccion;
             this.telefono = telefono;
+            this.dni = dni;
         }
     }
 }

@@ -27,7 +27,7 @@ import com.example.traveldreamsapp.models.UserProfileResponse;
 
 public class PerfilActivity extends AppCompatActivity {
 
-    private TextView tvName, tvSurname, tvEmail, tvPhone;
+    private TextView tvName, tvSurname, tvEmail, tvPhone, tvAddress, tvDni;
     private Button btnEditData, btnLogout;
     private ShapeableImageView profileImage;
 
@@ -47,12 +47,14 @@ public class PerfilActivity extends AppCompatActivity {
         tvSurname = findViewById(R.id.tv_full_name);
         tvEmail = findViewById(R.id.tv_email);
         tvPhone = findViewById(R.id.tv_phone);
+        tvAddress = findViewById(R.id.tv_address);
+        tvDni = findViewById(R.id.tv_dni);
 
         btnEditData = findViewById(R.id.btn_edit_data);
         btnLogout = findViewById(R.id.buttonLogout);
         profileImage = findViewById(R.id.profile_image);
 
-        // Cargar imagen de perfil guardada
+        // Cargar imagen de perfil guardada (aún sin implementar funcionalidad)
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String imageUriString = sharedPreferences.getString("profileImageUri", null);
         if (imageUriString != null) {
@@ -76,12 +78,13 @@ public class PerfilActivity extends AppCompatActivity {
             intent.putExtra("surname", tvSurname.getText().toString());
             intent.putExtra("email", tvEmail.getText().toString());
             intent.putExtra("phone", tvPhone.getText().toString());
+            intent.putExtra("address", tvAddress.getText().toString());
+            intent.putExtra("dni", tvDni.getText().toString());
             startActivityForResult(intent, 1);
         });
 
         btnLogout.setOnClickListener(v -> logout());
 
-        // Cargar perfil desde backend al iniciar la actividad
         loadUserProfileFromBackend();
     }
 
@@ -111,6 +114,8 @@ public class PerfilActivity extends AppCompatActivity {
                     tvSurname.setText(user.getLastName());
                     tvEmail.setText(user.getEmail());
                     tvPhone.setText(user.getTelephone());
+                    tvAddress.setText(user.getAddress());
+                    tvDni.setText(user.getDni());
                 } else {
                     Toast.makeText(PerfilActivity.this, "Error al cargar perfil", Toast.LENGTH_SHORT).show();
                 }
@@ -140,38 +145,31 @@ public class PerfilActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             tvName.setText(data.getStringExtra("name"));
             tvSurname.setText(data.getStringExtra("surname"));
-            tvEmail.setText(data.getStringExtra("email"));
             tvPhone.setText(data.getStringExtra("phone"));
+            tvAddress.setText(data.getStringExtra("address"));
+            tvDni.setText(data.getStringExtra("dni"));
 
-            // Actualizar datos en backend con Retrofit
-            updateUserProfile(tvName.getText().toString(), tvSurname.getText().toString(),
-                    tvEmail.getText().toString(), tvPhone.getText().toString());
+            updateUserProfile(data.getStringExtra("address"),
+                    data.getStringExtra("phone"),
+                    data.getStringExtra("dni"));
         }
     }
 
-    private void updateUserProfile(String name, String surname, String email, String phone) {
+    private void updateUserProfile(String address, String telephone, String dni) {
         String token = sessionManager.getToken();
         if (token == null || token.isEmpty()) {
             Toast.makeText(this, "Token inválido o sesión no iniciada", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        ApiService apiService = RetrofitClient.getRetrofitInstance("https://dreamtravel.pythonanywhere.com/api/").create(ApiService.class);
-
-        ApiService.UpdateProfileRequest updateRequest = new ApiService.UpdateProfileRequest(name, surname, null, phone);
+        ApiService apiService = RetrofitClient.getRetrofitInstance(token).create(ApiService.class);
+        ApiService.UpdateProfileRequest updateRequest = new ApiService.UpdateProfileRequest(address, telephone, dni);
 
         Call<UserProfileResponse> call = apiService.updateUserProfile("Bearer " + token, updateRequest);
         call.enqueue(new Callback<UserProfileResponse>() {
             @Override
             public void onResponse(Call<UserProfileResponse> call, Response<UserProfileResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    UserProfileResponse updatedUser = response.body();
-
-                    tvName.setText(updatedUser.getFirstName());
-                    tvSurname.setText(updatedUser.getLastName());
-                    tvEmail.setText(updatedUser.getEmail());
-                    tvPhone.setText(updatedUser.getTelephone());
-
                     Toast.makeText(PerfilActivity.this, "Perfil actualizado", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(PerfilActivity.this, "Error al actualizar perfil", Toast.LENGTH_SHORT).show();

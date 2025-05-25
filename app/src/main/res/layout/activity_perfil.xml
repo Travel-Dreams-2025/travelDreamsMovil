@@ -29,10 +29,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="686dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="16dp">
@@ -84,6 +83,16 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
+            <!-- DNI -->
+            <TextView
+                android:id="@+id/tv_dni"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="DNI"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
             <!-- Telefono -->
             <TextView
                 android:id="@+id/tv_phone"
@@ -111,7 +120,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="Modificar Datos" />
-
 
             <!-- Botón Modificar Contraseña -->
             <Button
