@@ -94,8 +94,21 @@
     <string name="precio_destino">$00.00</string>
     <string name="boton_comprar">Comprar</string>
     <string name="fecha_salida">Fecha de Salida</string>
-    <string name="cantidad_Disponible">Cupos</string>
+    <string name="cantidad_Disponible">Cupos Disponibles</string>
     <string name="boton_mas_detalles">Más Detalles</string>
+
+    <!--Destinos - fragment_detalle_destinos-->
+    <string name="destDetTitulo">TITULO DEL DESTINO</string>
+    <string name="destDetDescripcion">Descripción del destino</string>
+    <string name="destDetFechaSalida">Fecha de Salida</string>
+    <string name="destDetPrecioUnitario">Precio Unitario</string>
+    <string name="destDetSelecCantidad">Seleccione Cantidad:</string>
+    <string name="destDetRestar">−</string>
+    <string name="destDetStepper">1</string>
+    <string name="destDetSumar">+</string>
+    <string name="destDetCupos">Cupos Disponibles</string>
+    <string name="destDetTotal">Total</string>
+    <string name="destDetBtnAgregarCarrito"> <b>🛒</b> Agregar al carrito</string>
 
     <!--Destinos - 2da pantalla  - Content Description-->
     <string name="descripcion_imagen">Imagen del destino</string>
