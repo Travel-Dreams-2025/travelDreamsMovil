@@ -1,7 +1,6 @@
 package com.example.traveldreamsapp;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,11 +13,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat; // Necesario para cerrar el drawer
+import androidx.core.view.GravityCompat;
+import androidx.core.text.HtmlCompat; // Importación necesaria para manejar HTML
+import androidx.appcompat.app.AlertDialog; // Importación para AlertDialog
 
 import com.example.traveldreamsapp.databinding.ActivityNavigatorDrawerBinding;
 
-// La clase implementa el listener para manejar clics en el Navigation Drawer
 public class NavigatorDrawer extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -46,17 +46,14 @@ public class NavigatorDrawer extends AppCompatActivity implements NavigationView
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        // Asigna el listener a la NavigationView
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    // Este método ya no infla el menú de 3 puntos
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
 
-    // Maneja ítems de la Toolbar, si los hubiera
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return NavigationUI.onNavDestinationSelected(item, navController)
@@ -70,31 +67,38 @@ public class NavigatorDrawer extends AppCompatActivity implements NavigationView
                 || super.onSupportNavigateUp();
     }
 
-    // Maneja los clics de los ítems del Navigation Drawer
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        // Lógica para ítems que abren Activities o tienen acción específica
         if (id == R.id.nav_cart) {
             startActivity(new Intent(this, DashboardCompras.class));
         } else if (id == R.id.nav_help) {
             Snackbar.make(binding.getRoot(), "Clic en Ayuda desde Drawer", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+                    .setAction("Cerrar", view -> {})
+                    .show();
         } else if (id == R.id.nav_about) {
-            Snackbar.make(binding.getRoot(), "Clic en About desde Drawer", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            // Obtener la cadena HTML de strings.xml y formatearla
+            String htmlString = getString(R.string.about_software_info);
+            CharSequence formattedText = HtmlCompat.fromHtml(htmlString, HtmlCompat.FROM_HTML_MODE_LEGACY);
+
+            // Crear y mostrar un AlertDialog en lugar de un Snackbar
+            new AlertDialog.Builder(this)
+                    .setTitle("Acerca de Travel Dreams App") // Título del diálogo
+                    .setMessage(formattedText) // Contenido con el texto formateado
+                    .setPositiveButton("Cerrar", (dialog, which) -> dialog.dismiss()) // Botón para cerrar el diálogo
+                    .show();
         } else if (id == R.id.nav_privacy_policy) {
             startActivity(new Intent(this, PoliticaPrivacidad.class));
         } else if (id == R.id.nav_logout) {
             Snackbar.make(binding.getRoot(), "Cerrando Sesión desde Drawer...", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+                    .setAction("Cerrar", view -> {})
+                    .show();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }
-        // Si el ítem no fue manejado arriba, lo delega al Navigation Component
         else {
             boolean handledByNavigation = NavigationUI.onNavDestinationSelected(item, navController);
             if (handledByNavigation) {
@@ -104,7 +108,6 @@ public class NavigatorDrawer extends AppCompatActivity implements NavigationView
             }
         }
 
-        // Cierra el drawer después de un clic en cualquier ítem
         DrawerLayout drawer = binding.drawerLayout;
         drawer.closeDrawer(GravityCompat.START);
         return true;
