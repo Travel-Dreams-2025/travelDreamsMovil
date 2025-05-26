@@ -2,10 +2,12 @@
 <resources>
     <string name="app_name">TravelDreamsApp</string>
 
+    <!--Bienvenida - 1er Pantalla -->
     <string name="travel">TRAVEL</string>
     <string name="dreams">DREAMS</string>
     <string name="explorar">Explorar</string>
 
+    <!--Navigation Drawer -->
     <string name="nav_home">Home</string>
     <string name="nav_destinos">Destinos</string>
     <string name="nav_perfil">Perfil</string>
@@ -27,9 +29,11 @@
     <string name="action_settings">Settings</string>
 
 
+    <!--Perfil  - NavigatorDrawer-->
     <string name="plogin">Iniciar Sesión</string>
     <string name="pregister">Registrarse</string>
 
+    <!--Login -->
     <string name="titulo_login">INICIAR SESION</string>
     <string name="titulo_login_name">Bienvenido</string>
     <string name="hint_first_name">Nombre</string>
@@ -38,6 +42,7 @@
     <string name="forgot_pasword">Olvidé mi contraseña</string>
     <string name="msjregistrate">¿No tienes cuenta?¡Registrate aqui!</string>
 
+    <!--Registro -->
     <string name="register_title">INGRESE SUS DATOS</string>
     <string name="hint_name2">Nombre</string>
     <string name="hint_last_name2">Apellido</string>
@@ -45,6 +50,8 @@
     <string name="hint_password2">Contraseña</string>
     <string name="hint_confirm_password2">Confirmar Contraseña</string>
     <string name="conditional_pasword">Requiere: \n 8 caracteres y al menos un carácter especial (!, @, #, $, %)</string>
+
+    <!--Politica de Privacidad y Proteccion de Datos-->
 
     <string name="txtprivacitytitle">Leí y Acepto</string>
     <string name="btnBackReg">Volver a Registro</string>
@@ -82,6 +89,7 @@
             <i><b>Teléfono:</b> +34 900 123 456 </i> \n
     </string>
 
+    <!--Destinos - 2da pantalla -->
     <string name="titulo_destino">TITULO DEL DESTINO</string>
     <string name="descripcion_destino">Descripción corta del destino</string>
     <string name="precio_destino">$00.00</string>
@@ -103,9 +111,11 @@
     <string name="destDetTotal">Total</string>
     <string name="destDetBtnAgregarCarrito"> <b>🛒</b> Agregar al carrito</string>
 
+    <!--Destinos - 2da pantalla  - Content Description-->
     <string name="descripcion_imagen">Imagen del destino</string>
     <string name="descripcion_titulo_destino">Título del destino mostrado en la tarjeta</string> <string name="descripcion_precio">Precio del destino mostrado en la tarjeta</string> <string name="descripcion_boton_comprar">Botón para comprar el destino</string>
 
+    <!-- Títulos y botones -->
     <string name="hint_name">Nombre y Apellido</string>
     <string name="hint_email">Correo Electrónico</string>
     <string name="hint_password">Contraseña</string>
@@ -113,9 +123,11 @@
     <string name="privacy_policy">Política de Privacidad</string>
     <string name="register_button">Registrarse</string>
 
+    <!--Nosotros-->
     <string name="quienes_somos">¿Quiénes somos?</string>
     <string name="description_quienes_somos">Desde hace 20 años, Travel Dreams ha sido la brújula que guía a aventureros de todas las edades en sus viajes más esperados. Nuestra misión trasciende un simple itinerario; es una promesa de aventura, descubrimiento y recuerdos que perduran toda la vida.</string>
 
+    <!-- Nuestro Equipo -->
     <string name="equipo">Nuestro Equipo</string>
     <string name="m_1">Cantarino, Emmanuel</string>
     <string name="m_1_profile">Desarrollador</string>
