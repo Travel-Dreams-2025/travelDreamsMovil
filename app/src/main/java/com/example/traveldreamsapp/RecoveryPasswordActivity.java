@@ -50,7 +50,7 @@ public class RecoveryPasswordActivity extends AppCompatActivity {
     }
 
     private void sendPasswordResetEmail(String email) {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = RetrofitClient.getRetrofitInstance("https://dreamtravel.pythonanywhere.com/api/").create(ApiService.class);
         PasswordResetRequest request = new PasswordResetRequest(email);
 
         apiService.sendPasswordResetEmail(request).enqueue(new Callback<Void>() {
