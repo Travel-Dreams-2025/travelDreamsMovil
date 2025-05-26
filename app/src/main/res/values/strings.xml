@@ -124,6 +124,29 @@
     <string name="menu_cart">Mi Carrito</string>
     <string name="menu_help">Ayuda</string>
     <string name="menu_about">About</string>
+    <string name="about_software_info">
+        &lt;b&gt;Especificaciones del Software:&lt;/b&gt;\n
+        &lt;b&gt;Versión:&lt;/b&gt; 1.0\n
+        &lt;b&gt;Plataforma:&lt;/b&gt; Android\n
+        &lt;b&gt;Framework:&lt;/b&gt; Android SDK (API 21+)\n
+        &lt;b&gt;Lenguaje:&lt;/b&gt; Java\n
+        &lt;b&gt;IDE:&lt;/b&gt; Android Studio\n\n
+        &lt;b&gt;Tecnologías Clave:&lt;/b&gt;\n
+        &lt;ul&gt;
+            &lt;li&gt;Google Material Design&lt;/li&gt;
+            &lt;li&gt;AndroidX Libraries&lt;/li&gt;
+            &lt;li&gt;Navigation Component&lt;/li&gt;
+            &lt;li&gt;View Binding&lt;/li&gt;
+            &lt;li&gt;Gradle&lt;/li&gt;
+        &lt;/ul&gt;\n
+        &lt;b&gt;Creado por:&lt;/b&gt;\n
+        &lt;ul&gt;
+            &lt;li&gt;Cantarino, Emmanuel&lt;/li&gt;
+            &lt;li&gt;Cascallares, Facundo&lt;/li&gt;
+            &lt;li&gt;Fernandez, Claudio Ranses&lt;/li&gt;
+            &lt;li&gt;Soto Valenzuela, Juan Gabriel&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
     <string name="menu_privacy_policy">Política de Privacidad</string>
     <string name="menu_logout">Cerrar Sesión</string>
 
