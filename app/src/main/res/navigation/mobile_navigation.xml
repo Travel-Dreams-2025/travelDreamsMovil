@@ -9,13 +9,27 @@
         android:id="@+id/nav_home"
         android:name="com.example.traveldreamsapp.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_nav_home_to_destinosDetallesFragment"
+            app:destination="@id/destinosDetallesFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_destinos"
         android:name="com.example.traveldreamsapp.ui.destinos.DestinosFragment"
         android:label="@string/menu_destinos"
-        tools:layout="@layout/fragment_destinos" />
+        tools:layout="@layout/fragment_destinos">
+        <action
+            android:id="@+id/action_nav_destinos_to_destinosDetallesFragment"
+            app:destination="@id/destinosDetallesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destinosDetallesFragment"
+        android:name="com.example.traveldreamsapp.ui.destinos.detalles.DestinosDetallesFragment"
+        android:label="Detalles del Destino"
+        tools:layout="@layout/fragment_destinos_detalles" />
 
     <fragment
         android:id="@+id/nav_perfil"
