@@ -110,6 +110,13 @@
     <string name="destDetTotal">Total</string>
     <string name="destDetBtnAgregarCarrito"> <b>🛒</b> Agregar al carrito</string>
 
+    <!--Destinos - item_carrito-->
+    <string name="cartItTitulo">TITULO DEL DESTINO</string>
+    <string name="cartItFechaSalida">Salida</string>
+    <string name="cartItCupos">Cupos</string>
+    <string name="cartItCantidad">Cant.</string>
+    <string name="cartItPrecio">Precio</string>
+
     <!--Destinos - 2da pantalla  - Content Description-->
     <string name="descripcion_imagen">Imagen del destino</string>
     <string name="descripcion_titulo_destino">Título del destino mostrado en la tarjeta</string>
