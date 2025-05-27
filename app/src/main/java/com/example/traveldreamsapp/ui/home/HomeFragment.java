@@ -7,23 +7,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ImageView; // Mantener esta importación
+import android.widget.TextView;  // Mantener esta importación
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView; // Mantener esta importación
 
+import com.example.traveldreamsapp.R;
 import com.example.traveldreamsapp.adapter.DestinosAdapter;
 import com.example.traveldreamsapp.databinding.FragmentHomeBinding;
 import com.example.traveldreamsapp.models.Destinos;
 import com.example.traveldreamsapp.network.ApiClient;
 import com.example.traveldreamsapp.network.ApiService;
 
-import com.example.traveldreamsapp.R; // Importación necesaria para R.drawable
+// Importaciones para el clima (todas las que tenías)
 import com.example.traveldreamsapp.models.DailyForecast;
 import com.example.traveldreamsapp.models.WeatherCodeMapper;
 import com.example.traveldreamsapp.models.WeatherForecastResponse;
@@ -31,30 +35,30 @@ import com.example.traveldreamsapp.network.TomorrowioApiService;
 import com.example.traveldreamsapp.network.RetrofitClientTomorrowio;
 
 import java.io.IOException; // Mantener esta importación para el manejo de errorBody
+import java.util.ArrayList; // Mantener esta importación
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements DestinosAdapter.OnItemClickListener {
 
+    private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
+    private List<Destinos> destinos = new ArrayList<>();
     private DestinosAdapter destinosAdapter;
-    private List<Destinos> destinos;
 
+    // Vistas del clima
     private TextView textViewTemperature;
     private ImageView imageViewWeatherIcon;
     private TextView textViewWeatherCondition;
 
     private static final String TAG = "WeatherIntegration";
-    // *** CAMBIA ESTA API KEY POR LA TUYA REAL DE TOMORROW.IO ***
     private static final String TOMORROW_IO_API_KEY = "i2jAyklSRVw7Fh9is8eA1gzPn7KhfZPw"; // ¡Asegúrate de que esta sea tu clave real!
-    // Coordenadas de Córdoba, Argentina
     private static final String LOCATION_COORDS = "-31.4167,-64.1833"; // Coordenadas de Córdoba, Argentina
-    private static final String UNITS = "metric"; // Unidades métricas (Celsius, km/h)
-    private static final String TIMESTEPS = "1d"; // Pronóstico diario (1 día)
-    // Campos que pedimos a la API: temperatura promedio, máxima, mínima, y los códigos de clima
+    private static final String UNITS = "metric";
+    private static final String TIMESTEPS = "1d";
     private static final String FIELDS = "temperatureAvg,temperatureMax,temperatureMin,weatherCodeMax,weatherCodeMin,windSpeedAvg";
 
 
@@ -62,8 +66,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -84,30 +87,30 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        // Asumiendo que binding.recyclerViewDestinos es el RecyclerView en tu layout
         binding.recyclerViewDestinos.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        destinosAdapter = new DestinosAdapter(destinos, requireContext(), this);
+        binding.recyclerViewDestinos.setAdapter(destinosAdapter);
     }
 
     private void showDestinos() {
-        // Lógica existente para cargar destinos
         Call<List<Destinos>> call = ApiClient.getClient().create(ApiService.class).getDestinos();
         call.enqueue(new Callback<List<Destinos>>() {
             @Override
             public void onResponse(Call<List<Destinos>> call, Response<List<Destinos>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    destinos = response.body();
-                    destinosAdapter = new DestinosAdapter(destinos, requireContext());
-                    binding.recyclerViewDestinos.setAdapter(destinosAdapter);
+                    destinos.clear();
+                    destinos.addAll(response.body());
+                    destinosAdapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(getContext(), "No se encontraron destinos", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "Error al cargar destinos: " + response.code() + " " + response.message());
+                    Toast.makeText(getContext(), "No se encontraron destinos o error en la respuesta", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Error al cargar destinos: " + response.code() + " " + response.message()); // Mantener esta línea de log
                 }
             }
 
             @Override
             public void onFailure(Call<List<Destinos>> call, Throwable throwable) {
-                Toast.makeText(getContext(), "ERROR DE CONEXIÓN AL CARGAR DESTINOS", Toast.LENGTH_LONG).show();
-                Log.e(TAG, "Fallo al cargar destinos: " + throwable.getMessage(), throwable);
+                Toast.makeText(getContext(), "ERROR DE CONEXIÓN: " + throwable.getMessage(), Toast.LENGTH_SHORT).show(); // Mantener este Toast
+                Log.e(TAG, "Fallo al cargar destinos: " + throwable.getMessage(), throwable); // Mantener esta línea de log
             }
         });
     }
@@ -122,30 +125,25 @@ public class HomeFragment extends Fragment {
                         if (response.isSuccessful() && response.body() != null) {
                             WeatherForecastResponse weatherResponse = response.body();
 
-                            // *** ESTA LÍNEA ES CRUCIAL PARA LA DEPURACIÓN: Muestra la respuesta completa de la API ***
                             Log.d(TAG, "Respuesta COMPLETA de la API: " + response.body().toString());
 
                             if (weatherResponse.getTimelines() != null &&
                                     weatherResponse.getTimelines().getDaily() != null &&
                                     !weatherResponse.getTimelines().getDaily().isEmpty()) {
 
-                                // Obtener el pronóstico del primer día
                                 DailyForecast todayForecast = weatherResponse.getTimelines().getDaily().get(0);
 
                                 if (todayForecast != null && todayForecast.getValues() != null) {
                                     Double tempAvg = todayForecast.getValues().getTemperatureAvg();
                                     Integer weatherCodeMax = todayForecast.getValues().getWeatherCodeMax();
 
-                                    // Mostrar la temperatura
                                     if (tempAvg != null) {
                                         textViewTemperature.setText(String.format("%.0f°C", tempAvg));
                                     } else {
                                         textViewTemperature.setText("--°C");
                                     }
 
-                                    // Mostrar el icono y la condición del clima
                                     if (weatherCodeMax != null) {
-                                        // *** ESTA LÍNEA TAMBIÉN ES CRUCIAL PARA LA DEPURACIÓN: Muestra el weatherCodeMax recibido ***
                                         Log.d(TAG, "DEBUG: weatherCodeMax recibido de la API: " + weatherCodeMax);
 
                                         imageViewWeatherIcon.setImageResource(WeatherCodeMapper.getWeatherIconResId(weatherCodeMax));
@@ -170,7 +168,6 @@ public class HomeFragment extends Fragment {
                             }
 
                         } else {
-                            // Si la respuesta no es exitosa o el cuerpo es nulo
                             String errorBody = "N/A";
                             try {
                                 if (response.errorBody() != null) {
@@ -190,7 +187,6 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<WeatherForecastResponse> call, Throwable t) {
-                        // Error de conexión, red, etc.
                         Log.e(TAG, "Fallo al conectar con la API del clima: " + t.getMessage(), t);
                         Toast.makeText(getContext(), "ERROR DE RED AL CARGAR CLIMA", Toast.LENGTH_LONG).show();
                         textViewTemperature.setText("--°C");
@@ -198,6 +194,15 @@ public class HomeFragment extends Fragment {
                         textViewWeatherCondition.setText("Error de conexión");
                     }
                 });
+    }
+
+    @Override
+    public void onItemClick(Destinos destino) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("destino_seleccionado", destino);
+
+        NavController navController = Navigation.findNavController(requireView());
+        navController.navigate(R.id.action_nav_home_to_destinosDetallesFragment, bundle);
     }
 
     @Override
