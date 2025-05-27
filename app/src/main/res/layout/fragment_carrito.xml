@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#F8F8F8">
+
+        <!-- Total -->
+        <TextView
+            android:id="@+id/txt_total_carrito"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total: $0.00"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#000000" />
+
+        <!-- Método de pago -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elegí el medio de pago:"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"/>
+
+        <Spinner
+            android:id="@+id/spinner_medio_pago"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/medios_pago"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Botón de checkout -->
+        <Button
+            android:id="@+id/btn_finalizar_compra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Finalizar compra"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
