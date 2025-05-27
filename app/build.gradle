@@ -1,5 +1,3 @@
-// build.gradle (Module: app)
-
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -34,46 +32,44 @@ android {
 }
 
 dependencies {
-    // Dependencias de AndroidX y Material Design
+
     implementation libs.appcompat
-    implementation libs.material // Ya la tienes, solo la consolido.
+    implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
     implementation libs.legacy.support.v4
     implementation libs.fragment
-    implementation libs.cardview
-    implementation libs.recyclerview
-    implementation 'androidx.drawerlayout:drawerlayout:1.1.1' // Ya la tienes, solo la consolido.
-
-    // Dependencias de Testing
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+    implementation libs.retrofit
 
-    // Dependencias de Red (Retrofit, Gson)
-    // Retrofit: Cliente HTTP para hacer peticiones a APIs
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    // Converter-Gson: Para parsear las respuestas JSON a objetos Java automáticamente
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    // Gson: Librería para serialización/deserialización de JSON (ya incluida por converter-gson, pero bueno tenerla explícitamente)
+    implementation libs.cardview
+    implementation libs.recyclerview
+    implementation libs.glide
+    implementation libs.converter.gson
+    implementation libs.gson
+
+    implementation "androidx.room:room-runtime:2.5.1"
+    annotationProcessor "androidx.room:room-compiler:2.5.1"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-runtime:2.6.1"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.6.1"
+
     implementation 'com.google.code.gson:gson:2.10.1'
-    // OkHttp3 Logging Interceptor: Muy útil para ver los logs de las peticiones y respuestas HTTP en Logcat (DEPURACIÓN)
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
-    // Dependencias para Carga de Imágenes (Glide)
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+
     implementation 'com.github.bumptech.glide:glide:4.15.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
-
-    // Dependencias de Room (Persistencia de datos)
-    implementation "androidx.room:room-runtime:2.6.1" // Actualizado a 2.6.1 por compatibilidad y mejoras
-    annotationProcessor "androidx.room:room-compiler:2.6.1" // Actualizado a 2.6.1
-
-    // Dependencias de Lifecycle (ViewModel, LiveData)
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.7.0" // Actualizado a 2.7.0
-    implementation "androidx.lifecycle:lifecycle-livedata:2.7.0"   // Actualizado a 2.7.0
-    implementation "androidx.lifecycle:lifecycle-runtime:2.7.0"    // Actualizado a 2.7.0
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.7.0" // Actualizado a 2.7.0
 }
