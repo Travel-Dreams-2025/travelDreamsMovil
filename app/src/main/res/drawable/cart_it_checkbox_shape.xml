@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#FFA8E6A3" /> <!-- Fondo Celeste -->
+    <corners android:radius="8dp"/>
+</shape>

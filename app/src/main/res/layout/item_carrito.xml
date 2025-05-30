@@ -2,103 +2,130 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="8dp"
-    android:background="@drawable/bg_item_carrito"
-    android:gravity="center_vertical">
+    android:background="@drawable/cart_it_shape">
 
-    <!-- Checkbox para seleccionar -->
-    <CheckBox
-        android:id="@+id/checkbox_seleccion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="4dp"/>
-
-    <!-- Imagen miniatura -->
-    <ImageView
-        android:id="@+id/img_producto"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:src="@drawable/ic_launcher_background"
-        android:scaleType="centerCrop"
-        android:layout_marginHorizontal="8dp"/>
-
-    <!-- Contenedor de texto y controles -->
+    <!-- Fila horizontal con checkbox, imagen y detalles -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingHorizontal="4dp">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-        <!-- Nombre del producto -->
-        <TextView
-            android:id="@+id/txt_nombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/cartItTitulo"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-
-        <!-- Fecha de salida -->
-        <TextView
-            android:id="@+id/txt_fecha_salida"
+        <!-- Checkbox para seleccionar -->
+        <CheckBox
+            android:id="@+id/checkbox_seleccion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cartItFechaSalida"
-            android:textSize="12sp"
-            android:textColor="#777777"/>
+            android:padding="4dp"/>
 
-        <!-- Cupos disponibles -->
-        <TextView
-            android:id="@+id/txt_cupos_disponibles"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cartItCupos"
-            android:textSize="12sp"
-            android:textColor="#777777"
-            android:layout_marginTop="2dp" />
+        <!-- Imagen miniatura -->
+        <ImageView
+            android:id="@+id/img_producto"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_launcher_background"
+            android:scaleType="centerCrop"
+            android:layout_marginHorizontal="8dp"
+            android:contentDescription="@string/cartItDescImag"/>
 
-        <!-- Controles de cantidad y precio -->
+        <!-- Contenedor de texto y controles -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="4dp">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingHorizontal="4dp">
 
+            <!-- Nombre del producto -->
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/txt_nombre"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/cartItCantidad"
-                android:textSize="14sp" />
+                android:text="@string/cartItTitulo"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
 
-            <Spinner
-                android:id="@+id/spinner_cantidad"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:entries="@array/cantidades"/>
-
+            <!-- Fecha de salida -->
             <TextView
-                android:id="@+id/txt_precio_total"
+                android:id="@+id/txt_fecha_salida"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/cartItPrecio"
-                android:textSize="14sp"
-                android:layout_marginStart="12dp"
-                android:textColor="#FF5722"/>
+                android:text="@string/cartItFechaSalida"
+                android:textSize="12sp"
+                android:textColor="#444444"/>
+
+            <!-- Cupos disponibles -->
+            <TextView
+                android:id="@+id/txt_cupos_disponibles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cartItCupos"
+                android:textSize="12sp"
+                android:textColor="#444444"
+                android:layout_marginTop="2dp" />
+
+            <!-- Controles de cantidad y precio -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cartItCantidad"
+                    android:textSize="14sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_cantidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:entries="@array/CartItCantidades"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"/>
+
+                <TextView
+                    android:id="@+id/txt_precio_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cartItPrecio"
+                    android:textSize="14sp"
+                    android:layout_marginStart="12dp"
+                    android:textColor="#444444"
+                    android:minHeight="48dp"
+                    android:minWidth="30dp"/>
+            </LinearLayout>
         </LinearLayout>
+
+        <!-- Botón eliminar -->
+        <ImageButton
+            android:id="@+id/btn_eliminar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cart_it_delete"
+            android:contentDescription="@string/cartItEliminar"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:minHeight="48dp"
+            android:minWidth="48dp"
+            android:padding="8dp"/>
     </LinearLayout>
 
-    <!-- Botón eliminar -->
-    <ImageButton
-        android:id="@+id/btn_eliminar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_delete"
-        android:contentDescription="Eliminar"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:tint="@android:color/holo_red_dark" />
+    <!-- Botón "Comprar Ahora" -->
+    <Button
+        android:id="@+id/btn_comprar_ahora"
+        android:layout_width="163dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end"
+        android:text="@string/cartItBtnComprarYa"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:padding="0dp"
+        />
 
 </LinearLayout>
