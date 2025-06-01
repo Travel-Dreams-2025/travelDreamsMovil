@@ -30,37 +30,54 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Nombre. -->
-    <EditText
-        android:id="@+id/et_name"
+    <!-- Nombre (solo lectura) -->
+    <TextView
+        android:id="@+id/tv_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Nombre"
-        android:inputType="textPersonName"
-        android:padding="12dp"
-        app:layout_constraintTop_toBottomOf="@id/logoImageView2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="150dp" />
+        android:layout_marginTop="150dp"
+        android:padding="12dp"
+        android:text="Nombre"
+        android:textColor="@android:color/black"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoImageView2" />
 
-    <!-- Apellido -->
-    <EditText
-        android:id="@+id/et_surname"
+    <!-- Apellido (solo lectura) -->
+    <TextView
+        android:id="@+id/tv_surname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Apellido"
-        android:inputType="textPersonName"
-        android:padding="12dp"
-        app:layout_constraintTop_toBottomOf="@id/et_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="12dp"
+        android:padding="12dp"
+        android:text="Apellido"
+        android:textColor="@android:color/black"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_name" />
+    <!-- DNI (solo lectura) -->
+    <TextView
+        android:id="@+id/tv_dni"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="12dp"
+        android:padding="12dp"
+        android:text="DNI"
+        android:textColor="@android:color/black"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_surname" />
 
-    <!-- Dirección -->
+    <!-- Dirección (editable) -->
     <EditText
         android:id="@+id/et_address"
         android:layout_width="0dp"
@@ -68,14 +85,14 @@
         android:hint="Dirección"
         android:inputType="textPostalAddress"
         android:padding="12dp"
-        app:layout_constraintTop_toBottomOf="@id/et_surname"
+        app:layout_constraintTop_toBottomOf="@id/tv_surname"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="50dp" />
 
-    <!-- Teléfono -->
+    <!-- Teléfono (editable) -->
     <EditText
         android:id="@+id/et_phone"
         android:layout_width="0dp"
