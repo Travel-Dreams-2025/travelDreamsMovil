@@ -45,6 +45,7 @@ dependencies {
     implementation libs.fragment
     implementation libs.cardview
     implementation libs.recyclerview
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1' // Ya la tienes, solo la consolido.
 
     // Dependencias de Testing

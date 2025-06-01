@@ -73,6 +73,15 @@
                 android:text="Apellido"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+            <!-- DNI -->
+            <TextView
+                android:id="@+id/tv_dni"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="DNI"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <!-- Email -->
             <TextView
