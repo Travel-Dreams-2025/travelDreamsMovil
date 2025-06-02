@@ -10,11 +10,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.traveldreamsapp.network.ApiService;
 import com.example.traveldreamsapp.network.LoginRequest;
 import com.example.traveldreamsapp.network.LoginResponse;
+import com.example.traveldreamsapp.ui.destinos.DestinosFragment;
+import com.example.traveldreamsapp.ui.destinos.DestinosViewModel;
+import com.google.android.material.navigation.NavigationView;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -31,6 +37,9 @@ public class LoginActivity extends AppCompatActivity {
     private Button buttonLogin;
     private TextView forgotPassword;
     private boolean isPasswordVisible = false;
+    private DrawerLayout drawerLayout;
+    private NavigationView navView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +57,39 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        editTextEmail = findViewById(R.id.editTextUsername); // Cambiar el ID si hace falta
+        // Configuración del Navigation Drawer
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar); // Asegúrate de tener un Toolbar en tu layout
+
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navView.setNavigationItemSelectedListener(item -> {
+            // Manejar los clicks del menú aquí
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(this, MainActivity.class));
+            } else if (id == R.id.nav_perfil) {
+                startActivity(new Intent(this, PerfilActivity.class));
+            } else if (id == R.id.nav_destinos) {
+                startActivity(new Intent(this, NavigatorDrawer.class));
+            }
+            // Añade más items según tu menú
+
+            drawerLayout.closeDrawers();
+            return true;
+        });
+
+        // Configuración del login (tu código original)
+        editTextEmail = findViewById(R.id.editTextUsername);
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         forgotPassword = findViewById(R.id.forgotPassword);
@@ -91,8 +132,6 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         String token = response.body().getAccessToken();
-
-                        // Guardamos el token
                         sessionManager.saveToken(token);
 
                         Toast.makeText(LoginActivity.this, "Login exitoso, bienvenido!", Toast.LENGTH_SHORT).show();
@@ -110,12 +149,9 @@ public class LoginActivity extends AppCompatActivity {
                                 String errorMsg = errorBody.string();
                                 Log.e("LOGIN_ERROR", errorMsg);
                                 Toast.makeText(LoginActivity.this, "Error: " + errorMsg, Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Error desconocido del servidor", Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             Log.e("LOGIN_ERROR", "No se pudo leer el cuerpo del error", e);
-                            Toast.makeText(LoginActivity.this, "Error al procesar respuesta", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -129,7 +165,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    // Método para alternar visibilidad de la contraseña (si querés usarlo)
     private void togglePasswordVisibility() {
         if (isPasswordVisible) {
             editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
