@@ -134,14 +134,6 @@
                     android:layout_marginBottom="8dp"
                     android:text="Modificar Datos" />
 
-                <!-- Botón Modificar Contraseña -->
-                <Button
-                    android:id="@+id/btn_edit_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Modificar Contraseña" />
-
                 <!-- Botón Cerrar Sesión -->
                 <Button
                     android:id="@+id/buttonLogout"
