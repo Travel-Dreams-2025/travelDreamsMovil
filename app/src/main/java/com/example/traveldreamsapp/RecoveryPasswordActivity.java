@@ -2,17 +2,15 @@ package com.example.traveldreamsapp;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.traveldreamsapp.network.ApiService;
-import com.example.traveldreamsapp.network.RetrofitClient;
 import com.example.traveldreamsapp.models.PasswordResetRequest;
-
+import com.example.traveldreamsapp.network.PasswordResetService;
+import com.example.traveldreamsapp.network.PasswordResetClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,16 +42,16 @@ public class RecoveryPasswordActivity extends AppCompatActivity {
                 return;
             }
 
-            // Llamada a la API
             sendPasswordResetEmail(email);
         });
     }
 
     private void sendPasswordResetEmail(String email) {
-        ApiService apiService = RetrofitClient.getRetrofitInstance("https://dreamtravel.pythonanywhere.com/api/").create(ApiService.class);
+
+        PasswordResetService passwordResetService = PasswordResetClient.getInstance().create(PasswordResetService.class);
         PasswordResetRequest request = new PasswordResetRequest(email);
 
-        apiService.sendPasswordResetEmail(request).enqueue(new Callback<Void>() {
+        passwordResetService.sendPasswordResetEmail(request).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
@@ -68,6 +66,7 @@ public class RecoveryPasswordActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(RecoveryPasswordActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("RecoveryError", "Excepción: ", t);
             }
         });
     }

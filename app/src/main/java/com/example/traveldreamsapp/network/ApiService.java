@@ -33,7 +33,7 @@ public interface ApiService {
     @POST("api/v1/auth/register/")
     Call<RegisterResponse> registerUser(@Body RegisterRequest registerRequest);
 
-    @POST("password-reset/")
+    @POST("accounts/password-reset/")
     Call<Void> sendPasswordResetEmail(@Body PasswordResetRequest request);
 
     @GET("api/v1/usuarios/")
