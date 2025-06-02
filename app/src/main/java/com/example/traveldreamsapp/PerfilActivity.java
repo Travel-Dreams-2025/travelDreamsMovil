@@ -11,11 +11,15 @@ import android.widget.Toast;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.navigation.NavigationView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +34,9 @@ public class PerfilActivity extends AppCompatActivity {
     private TextView tvName, tvSurname, tvEmail, tvPhone, tvAddress, tvDni;
     private Button btnEditData, btnLogout, btnEditPassword;
     private ShapeableImageView profileImage;
+    private DrawerLayout drawerLayout;
+    private NavigationView navView;
+    private Toolbar toolbar;
 
     private static final int PICK_IMAGE = 100;
     private static final int REQUEST_PERMISSION_READ_STORAGE = 1;
@@ -42,6 +49,38 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
 
         sessionManager = new SessionManager(this);
+
+        // Configuración del Navigation Drawer
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(this, MainActivity.class));
+            } else if (id == R.id.nav_perfil) {
+                // Ya estamos en el perfil, solo cerramos el drawer
+            } else if (id == R.id.nav_destinos) {
+                startActivity(new Intent(this, NavigatorDrawer.class));
+            } else if (id == R.id.nav_logout) {
+                logout();
+            }
+            // Añade más items según tu menú
+
+            drawerLayout.closeDrawers();
+            return true;
+        });
 
         // Inicializar vistas
         tvName = findViewById(R.id.tv_name);
@@ -86,10 +125,8 @@ public class PerfilActivity extends AppCompatActivity {
             startActivityForResult(intent, 1);
         });
 
-        // Nuevo listener para el botón de modificar contraseña
         btnEditPassword.setOnClickListener(v -> {
-            Intent intent = new Intent(PerfilActivity.this, RecoveryPasswordActivity.class);
-            // Opcional: Puedes enviar el email del usuario si es necesario
+            Intent intent = new Intent(PerfilActivity.this, ChangePasswordActivity.class);
             intent.putExtra("email", tvEmail.getText().toString());
             startActivity(intent);
         });
@@ -121,12 +158,14 @@ public class PerfilActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     UserProfileResponse user = response.body();
 
-                    tvName.setText(user.getFirstName());
-                    tvSurname.setText(user.getLastName());
-                    tvEmail.setText(user.getEmail());
-                    tvPhone.setText(user.getTelephone());
-                    tvAddress.setText(user.getAddress());
-                    tvDni.setText(user.getDni());
+                    runOnUiThread(() -> {
+                        tvName.setText(user.getFirstName());
+                        tvSurname.setText(user.getLastName());
+                        tvEmail.setText(user.getEmail());
+                        tvPhone.setText(user.getTelephone());
+                        tvAddress.setText(user.getAddress());
+                        tvDni.setText(user.getDni());
+                    });
                 } else {
                     Toast.makeText(PerfilActivity.this, "Error al cargar perfil", Toast.LENGTH_SHORT).show();
                 }
@@ -214,5 +253,14 @@ public class PerfilActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(navView)) {
+            drawerLayout.closeDrawers();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
