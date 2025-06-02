@@ -130,14 +130,17 @@ public class EditDataActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(EditDataActivity.this, "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show();
 
-                    // Devolver TODOS los datos necesarios a PerfilActivity
-                    Intent resultIntent = new Intent();
+                    // Crear intent para NavigatorDrawer en lugar de devolver resultado
+                    Intent resultIntent = new Intent(EditDataActivity.this, NavigatorDrawer.class);
                     resultIntent.putExtra("name", originalName);
                     resultIntent.putExtra("surname", originalSurname);
                     resultIntent.putExtra("dni", originalDni);
                     resultIntent.putExtra("address", direccion);
                     resultIntent.putExtra("phone", telefono);
-                    setResult(RESULT_OK, resultIntent);
+
+                    // Limpiar el stack de actividades y empezar nueva navegación
+                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(resultIntent);
                     finish();
                 } else {
                     try {
