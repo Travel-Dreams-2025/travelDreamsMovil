@@ -32,7 +32,7 @@ import com.example.traveldreamsapp.models.UserProfileResponse;
 public class PerfilActivity extends AppCompatActivity {
 
     private TextView tvName, tvSurname, tvEmail, tvPhone, tvAddress, tvDni;
-    private Button btnEditData, btnLogout, btnEditPassword;
+    private Button btnEditData, btnLogout;
     private ShapeableImageView profileImage;
     private DrawerLayout drawerLayout;
     private NavigationView navView;
@@ -92,7 +92,6 @@ public class PerfilActivity extends AppCompatActivity {
 
         btnEditData = findViewById(R.id.btn_edit_data);
         btnLogout = findViewById(R.id.buttonLogout);
-        btnEditPassword = findViewById(R.id.btn_edit_password);
         profileImage = findViewById(R.id.profile_image);
 
         // Cargar imagen de perfil guardada
@@ -123,12 +122,6 @@ public class PerfilActivity extends AppCompatActivity {
             intent.putExtra("address", tvAddress.getText().toString());
             intent.putExtra("dni", tvDni.getText().toString());
             startActivityForResult(intent, 1);
-        });
-
-        btnEditPassword.setOnClickListener(v -> {
-            Intent intent = new Intent(PerfilActivity.this, ChangePasswordActivity.class);
-            intent.putExtra("email", tvEmail.getText().toString());
-            startActivity(intent);
         });
 
         btnLogout.setOnClickListener(v -> logout());
