@@ -22,7 +22,10 @@ public class SessionManager {
     public String getToken() {
         return prefs.getString(KEY_TOKEN, "");
     }
-
+    public boolean isLoggedIn() {
+        String token = getToken();
+        return token != null && !token.isEmpty();
+    }
     public void clearSession() {
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
