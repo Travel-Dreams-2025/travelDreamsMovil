@@ -1,13 +1,15 @@
 package com.example.traveldreamsapp;
 
-import android.content.Intent; // Asegúrate de incluir esto
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View; // Asegúrate de incluir esto también
-import android.widget.Button; // Asegúrate de incluir esto
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView; // Importación necesaria
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.graphics.Insets;
+import androidx.core.text.HtmlCompat; // Importación necesaria
 
 public class PoliticaPrivacidad extends AppCompatActivity {
 
@@ -22,15 +24,20 @@ public class PoliticaPrivacidad extends AppCompatActivity {
             return insets;
         });
 
-        Button btnVolverRegistro = findViewById(R.id.btnBackReg); // Asegúrate de que el ID sea correcto
-        btnVolverRegistro.setText("Volver a Registro");
+        // CAMBIO AQUÍ: Usar el ID correcto del TextView para el contenido de la política
+        TextView privacyPolicyTextView = findViewById(R.id.privacy_policy_content);
+
+        String htmlString = getString(R.string.txtprivacity);
+        CharSequence formattedText = HtmlCompat.fromHtml(htmlString, HtmlCompat.FROM_HTML_MODE_LEGACY);
+        privacyPolicyTextView.setText(formattedText);
+
+        Button btnVolverRegistro = findViewById(R.id.btnBackReg);
         btnVolverRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Redirigir a la actividad de registro
-                Intent intent = new Intent(PoliticaPrivacidad.this, RegistroActivity.class); // Cambia 'RegistroActivity.class' al nombre de tu actividad de registro
+                Intent intent = new Intent(PoliticaPrivacidad.this, RegistroActivity.class);
                 startActivity(intent);
-                finish(); // Finaliza la actividad actual
+                finish();
             }
         });
     }

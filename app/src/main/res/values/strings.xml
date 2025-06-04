@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TravelDreamsApp</string>
 
@@ -55,37 +56,36 @@
     <string name="txtprivacitytitle">Leí y Acepto</string>
     <string name="btnBackReg">Volver a Registro</string>
 
-
     <string name="txtprivacity">
-        1. <b> Introducción:</b> \n <i>En Travel Dreams, valoramos y respetamos su privacidad. Esta Política de Privacidad describe cómo recopilamos, utilizamos y protegemos su información personal cuando utiliza nuestros servicios a través de nuestra página web, aplicaciones móviles y otros servicios asociados. Al utilizar Travel Dreams, usted acepta los términos y condiciones descritos en esta política. </i> \n  \n
-        2. <b> <i>Información que Recopilamos:</i> \n </b>
-            •	<i>Información de contacto:</i> Nombre, dirección de correo electrónico, número de teléfono.\n
-            •	<i>Información de viaje:</i> Detalles de sus reservas, preferencias de viaje, itinerarios.\n
-            •	<i>Información de pago:</i> Detalles de tarjetas de crédito o débito, cuentas bancarias (procesada de forma segura por nuestros proveedores de pago).\n
-            •	<i>Información técnica:</i> Dirección IP, tipo de dispositivo, navegador, cookies y datos de rastreo. \n  \n
-        3. <b>Fines de la Información Solicitada:</b> \n
-            •	<i>Procesar y gestionar sus reservas de viaje.</i>\n
-            •	<i>Enviar actualizaciones y notificaciones relacionadas con su viaje.</i> \n
-            •	<i>Mejorar la experiencia de usuario y ofrecer recomendaciones personalizadas.</i> \n
-            •	<i>Cumplir con requisitos legales y regulatorios. </i> \n
-            •	<i>Proporcionar soporte al cliente y asistencia técnica.</i> \n \n
-        4. <b>Protección de sus Datos:</b> \n En Travel Dreams, tomamos medidas para garantizar la seguridad de su información personal mediante el uso de tecnologías de encriptación y protocolos de seguridad avanzados. Los datos almacenados están protegidos en servidores seguros y solo son accesibles por personal autorizado. Además, trabajamos con proveedores de servicios de confianza que cumplen con las normativas de protección de datos aplicables. \n \n
-        5. <b>Cookies y Tecnologías Similares:</b> \n Utilizamos cookies para mejorar la funcionalidad de nuestra web y personalizar su experiencia. Puede controlar el uso de cookies a través de la configuración de su navegador. Al continuar utilizando nuestra web sin cambiar las preferencias de cookies, usted acepta el uso de estas. \n  \n
-        6. <b>Compartir Información con Terceros:</b> \n No compartimos su información personal con terceros, excepto en las siguientes circunstancias: \n
-            •	Con proveedores de servicios de viaje, como aerolíneas, hoteles y empresas de transporte, para procesar y gestionar sus reservas. \n
-            •	Con proveedores de pago para procesar transacciones seguras. \n
-            •	Cuando sea requerido por la ley o autoridades regulatorias. \n  \n
-        7. <b>Usted tiene derecho a: </b> \n
-            •	Acceder a sus datos personales. \n
-            •	Solicitar la corrección de datos incorrectos. \n
-            •	Solicitar la eliminación de sus datos personales. \n
-            •	Retirar su consentimiento para el procesamiento de datos en cualquier momento. \n
-            Para ejercer sus derechos, por favor póngase en contacto con nosotros en privacidad@traveldreams.com. \n  \n
-        8. <b>Cambios a esta Política:</b>  \n Nos reservamos el derecho de actualizar esta Política de Privacidad en cualquier momento. Le notificaremos de cualquier cambio publicando la nueva política en nuestra página web y actualizando la fecha de "última actualización". \n \n
-        9. <b>Contacto:</b>  \n Si tiene preguntas o inquietudes sobre esta política, puede contactarnos en: \n \n
-            <i><b>Travel Dreams</b></i> \n
-            <i><b>Correo electrónico:</b> info@traveldreams.com </i> \n
-            <i><b>Teléfono:</b> +34 900 123 456 </i> \n
+        1. &lt;b&gt; Introducción:&lt;/b&gt; \n &lt;i&gt;En Travel Dreams, valoramos y respetamos su privacidad. Esta Política de Privacidad describe cómo recopilamos, utilizamos y protegemos su información personal cuando utiliza nuestros servicios a través de nuestra página web, aplicaciones móviles y otros servicios asociados. Al utilizar Travel Dreams, usted acepta los términos y condiciones descritos en esta política. &lt;/i&gt; \n  \n
+        2. &lt;b&gt; &lt;i&gt;Información que Recopilamos:&lt;/i&gt; \n &lt;/b&gt;
+            •   &lt;i&gt;Información de contacto:&lt;/i&gt; Nombre, dirección de correo electrónico, número de teléfono.\n
+            •   &lt;i&gt;Información de viaje:&lt;/i&gt; Detalles de sus reservas, preferencias de viaje, itinerarios.\n
+            •   &lt;i&gt;Información de pago:&lt;/i&gt; Detalles de tarjetas de crédito o débito, cuentas bancarias (procesada de forma segura por nuestros proveedores de pago).\n
+            •   &lt;i&gt;Información técnica:&lt;/i&gt; Dirección IP, tipo de dispositivo, navegador, cookies y datos de rastreo. \n  \n
+        3. &lt;b&gt;Fines de la Información Solicitada:&lt;/b&gt; \n
+            •   &lt;i&gt;Procesar y gestionar sus reservas de viaje.&lt;/i&gt;\n
+            •   &lt;i&gt;Enviar actualizaciones y y notificaciones relacionadas con su viaje.&lt;/i&gt; \n
+            •   &lt;i&gt;Mejorar la experiencia de usuario y ofrecer recomendaciones personalizadas.&lt;/i&gt; \n
+            •   &lt;i&gt;Cumplir con requisitos legales y regulatorios. &lt;/i&gt; \n
+            •   &lt;i&gt;Proporcionar soporte al cliente y asistencia técnica.&lt;/i&gt; \n \n
+        4. &lt;b&gt;Protección de sus Datos:&lt;/b&gt; \n En Travel Dreams, tomamos medidas para garantizar la seguridad de su información personal mediante el uso de tecnologías de encriptación y protocolos de seguridad avanzados. Los datos almacenados están protegidos en servidores seguros y solo son accesibles por personal autorizado. Además, trabajamos con proveedores de servicios de confianza que cumplen con las normativas de protección de datos aplicables. \n \n
+        5. &lt;b&gt;Cookies y Tecnologías Similares:&lt;/b&gt; \n Utilizamos cookies para mejorar la funcionalidad de nuestra web y personalizar su experiencia. Puede controlar el uso de cookies a través de la configuración de su navegador. Al continuar utilizando nuestra web sin cambiar las preferencias de cookies, usted acepta el uso de estas. \n  \n
+        6. &lt;b&gt;Compartir Información con Terceros:&lt;/b&gt; \n No compartimos su información personal con terceros, excepto en las siguientes circunstancias: \n
+            •   Con proveedores de servicios de viaje, como aerolíneas, hoteles y empresas de transporte, para procesar y gestionar sus reservas. \n
+            •   Con proveedores de pago para procesar transacciones seguras. \n
+            •   Cuando sea requerido por la ley o autoridades regulatorias. \n  \n
+        7. &lt;b&gt;Usted tiene derecho a: &lt;/b&gt; \n
+            •   Acceder a sus datos personales. \n
+            •   Solicitar la corrección de datos incorrectos. \n
+            •   Solicitar la eliminación de sus datos personales. \n
+            •   Retirar su consentimiento para el procesamiento de datos en cualquier momento. \n
+            Para ejercer sus derechos, por favor póngase en contacto con nosotros en &lt;b&gt;traveldreams.team@gmail.com&lt;/b&gt;. \n  \n
+        8. &lt;b&gt;Cambios a esta Política:&lt;/b&gt;  \n Nos reservamos el derecho de actualizar esta Política de Privacidad en cualquier momento. Le notificaremos de cualquier cambio publicando la nueva política en nuestra página web y actualizando la fecha de "última actualización". \n \n
+        9. &lt;b&gt;Contacto:&lt;/b&gt;  \n Si tiene preguntas o inquietudes sobre esta política, puede contactarnos en: \n \n
+            &lt;i&gt;&lt;b&gt;Travel Dreams&lt;/b&gt;&lt;/i&gt; \n
+            &lt;i&gt;&lt;b&gt;Correo electrónico:&lt;/b&gt; &lt;b&gt;traveldreams.team@gmail.com&lt;/b&gt; &lt;/i&gt; \n
+            &lt;i&gt;&lt;b&gt;Teléfono:&lt;/b&gt; +34 900 123 456 &lt;/i&gt; \n
     </string>
 
     <!--Destinos - 2da pantalla -->
@@ -93,11 +93,27 @@
     <string name="descripcion_destino">Descripción corta del destino</string>
     <string name="precio_destino">$00.00</string>
     <string name="boton_comprar">Comprar</string>
+    <string name="fecha_salida">Fecha de Salida</string>
+    <string name="cantidad_Disponible">Cupos Disponibles</string>
+    <string name="boton_mas_detalles">Más Detalles</string>
+
+    <!--Destinos - fragment_detalle_destinos-->
+    <string name="destDetTitulo">TITULO DEL DESTINO</string>
+    <string name="destDetDescripcion">Descripción del destino</string>
+    <string name="destDetFechaSalida">Fecha de Salida</string>
+    <string name="destDetPrecioUnitario">Precio Unitario</string>
+    <string name="destDetSelecCantidad">Seleccione Cantidad:</string>
+    <string name="destDetRestar">−</string>
+    <string name="destDetStepper">1</string>
+    <string name="destDetSumar">+</string>
+    <string name="destDetCupos">Cupos Disponibles</string>
+    <string name="destDetTotal">Total</string>
+    <string name="destDetBtnAgregarCarrito"> <b>🛒</b> Agregar al carrito</string>
 
     <!--Destinos - 2da pantalla  - Content Description-->
     <string name="descripcion_imagen">Imagen del destino</string>
-    <string name="descripcion_titulo_destino">Título del destino mostrado en la tarjeta</string> <!-- Nueva descripción -->
-    <string name="descripcion_precio">Precio del destino mostrado en la tarjeta</string> <!-- Nueva descripción -->
+    <string name="descripcion_titulo_destino">Título del destino mostrado en la tarjeta</string>
+    <string name="descripcion_precio">Precio del destino mostrado en la tarjeta</string>
     <string name="descripcion_boton_comprar">Botón para comprar el destino</string>
 
     <!-- Títulos y botones -->
@@ -115,30 +131,17 @@
     <!-- Nuestro Equipo -->
     <string name="equipo">Nuestro Equipo</string>
     <string name="m_1">Cantarino, Emmanuel</string>
-    <string name="m_1_profile">Full Stack</string>
+    <string name="m_1_profile">Desarrollador</string>
 
     <string name="m_2">Cascallares, Facundo</string>
-    <string name="m_2_profile">Full Stack</string>
+    <string name="m_2_profile">Desarrollador</string>
 
     <string name="m_3">Fernandez, Claudio Ranses</string>
-    <string name="m_3_profile">Full Stack</string>
+    <string name="m_3_profile">Desarrollador</string>
 
-    <string name="m_4">González, Natalia</string>
-    <string name="m_4_profile">Full Stack</string>
+    <string name="m_4">Soto Valenzuela, Juan Gabriel</string>
+    <string name="m_4_profile">Desarrollador</string>
 
-    <string name="m_5">Navarrete, Romina Gabriela</string>
-    <string name="m_5_profile">Full Stack</string>
-
-    <string name="m_6">Oro, Elias</string>
-    <string name="m_6_profile">Full Stack</string>
-
-    <string name="m_7">Ortiz, Fernando Ariel</string>
-    <string name="m_7_profile">Full Stack</string>
-
-    <string name="m_8">Soto Valenzuela, Juan Gabriel</string>
-    <string name="m_8_profile">Full Stack</string>
-
-    <!--Fomulario Contacto -->
     <string name="contact_title">Contacto</string>
     <string name="contact_subtitle">Si tienes preguntas, comentarios o sugerencias, por favor, no dudes en enviarnos un mensaje.</string>
     <string name="hint_cname">Nombre</string>
@@ -147,6 +150,35 @@
     <string name="submit_button">Enviar</string>
     <string name="recovery_password_hint">Ingrese su correo electrónico para recuperar su contraseña. Un administrador se pondra en contacto con usted a la brevedad..</string>
 
+    <string name="menu_cart">Mi Carrito</string>
+    <string name="menu_help">Ayuda</string>
+    <string name="menu_about">About</string>
+    <string name="about_software_info">
+        &lt;b&gt;Especificaciones del Software:&lt;/b&gt;\n
+        &lt;b&gt;Versión:&lt;/b&gt; 1.0\n
+        &lt;b&gt;Plataforma:&lt;/b&gt; Android\n
+        &lt;b&gt;Framework:&lt;/b&gt; Android SDK (API 21+)\n
+        &lt;b&gt;Lenguaje:&lt;/b&gt; Java\n
+        &lt;b&gt;IDE:&lt;/b&gt; Android Studio\n\n
+        &lt;b&gt;Tecnologías Clave:&lt;/b&gt;\n
+        &lt;ul&gt;
+            &lt;li&gt;Google Material Design&lt;/li&gt;
+            &lt;li&gt;AndroidX Libraries&lt;/li&gt;
+            &lt;li&gt;Navigation Component&lt;/li&gt;
+            &lt;li&gt;View Binding&lt;/li&gt;
+            &lt;li&gt;Gradle&lt;/li&gt;
+        &lt;/ul&gt;\n
+        &lt;b&gt;Creado por:&lt;/b&gt;\n
+        &lt;ul&gt;
+            &lt;li&gt;Cantarino, Emmanuel&lt;/li&gt;
+            &lt;li&gt;Cascallares, Facundo&lt;/li&gt;
+            &lt;li&gt;Fernandez, Claudio Ranses&lt;/li&gt;
+            &lt;li&gt;Soto Valenzuela, Juan Gabriel&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+    <string name="menu_privacy_policy">Política de Privacidad</string>
+    <string name="menu_logout">Cerrar Sesión</string>
+
+    <string name="menu_additional_options">Opciones Adicionales</string>
+
 </resources>
-
-
