@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 LoginRequest loginRequest = new LoginRequest("usuario", "contraseña");
                 login(loginRequest);  // Llamada al método login
 
-                // Navegar a la siguiente actividad (como ya lo tenías en tu código)
+                // Navegar a la siguiente actividad
                 Intent intent = new Intent(MainActivity.this, NavigatorDrawer.class);
                 startActivity(intent);
             }
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
                     LoginResponse loginResponse = response.body();
-                    // Aquí puedes almacenar el token o hacer cualquier otra acción
+                    // Aquí podemos almacenar el token o hacer cualquier otra acción
                     Log.d("Login", "Access Token: " + loginResponse.getAccessToken());
 
                 } else {

@@ -24,7 +24,7 @@ public class PoliticaPrivacidad extends AppCompatActivity {
             return insets;
         });
 
-        // CAMBIO AQUÍ: Usar el ID correcto del TextView para el contenido de la política
+
         TextView privacyPolicyTextView = findViewById(R.id.privacy_policy_content);
 
         String htmlString = getString(R.string.txtprivacity);

@@ -110,6 +110,29 @@
     <string name="destDetTotal">Total</string>
     <string name="destDetBtnAgregarCarrito"> <b>🛒</b> Agregar al carrito</string>
 
+
+
+    <!--Destinos - ITEM CARRITO -->
+    <string name="cartItTitulo">TITULO DEL DESTINO</string>
+    <string name="cartItFechaSalida">Salida</string>
+    <string name="cartItCupos">Cupos</string>
+    <string name="cartItCantidad">Cant.</string>
+    <string name="cartItPrecio">Precio</string>
+    <string name="cartItEliminar">Eliminar</string>
+    <string name="cartItDescImag">Descripcion de Imagen del Prodúcto</string>
+    <string name="cartItBtnComprarYa">Comprar Ahora</string>
+    <string name="cartItSeleccionarTodo">Seleccionar Todo</string>
+
+
+
+    <!--Fragment Carrito-->
+    <string name="FCmedios_pago">Elegí el medio de pago:</string>
+    <string name="FCTotal">Total:</string>
+    <string name="FDFinalizarcompra">Finalizar Compra</string>
+
+
+
+
     <!--Destinos - 2da pantalla  - Content Description-->
     <string name="descripcion_imagen">Imagen del destino</string>
     <string name="descripcion_titulo_destino">Título del destino mostrado en la tarjeta</string>
