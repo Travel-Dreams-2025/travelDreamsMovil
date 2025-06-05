@@ -25,6 +25,7 @@ public class NavigatorDrawer extends AppCompatActivity implements NavigationView
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavigatorDrawerBinding binding;
     private NavController navController;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class NavigatorDrawer extends AppCompatActivity implements NavigationView
 
         setSupportActionBar(binding.appBarNavigationDrawer.toolbar);
 
-        DrawerLayout drawer = binding.drawerLayout;
+        drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -72,12 +73,9 @@ public class NavigatorDrawer extends AppCompatActivity implements NavigationView
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        DrawerLayout drawer = binding.drawerLayout;
 
         if (id == R.id.nav_cart) {
             navController.navigate(R.id.nav_cart);
-            drawer.closeDrawer(GravityCompat.START);
-            return true;
         } else if (id == R.id.nav_help) {
             Snackbar.make(binding.getRoot(), "Clic en Ayuda desde Drawer", Snackbar.LENGTH_LONG)
                     .setAction("Cerrar", view -> {})
@@ -103,13 +101,21 @@ public class NavigatorDrawer extends AppCompatActivity implements NavigationView
             finish();
         } else {
             boolean handledByNavigation = NavigationUI.onNavDestinationSelected(item, navController);
-            if (handledByNavigation) {
-                drawer.closeDrawer(GravityCompat.START);
-                return true;
+            if (!handledByNavigation) {
+                navController.navigate(id);
             }
         }
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

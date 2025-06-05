@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,122 +14,99 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.PUT;
+import retrofit2.http.PATCH;
 
 import java.io.IOException;
 
 public class EditDataActivity extends AppCompatActivity {
 
-    private EditText etName, etSurname, etAddress, etPhone;
+    private TextView tvName, tvSurname, tvDni;
+    private EditText etAddress, etPhone;
     private Button btnSaveData;
+    private String originalName, originalSurname, originalDni;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_perfil);
 
-        etName = findViewById(R.id.et_name);
-        etSurname = findViewById(R.id.et_surname);
+        // Inicializar vistas
+        tvName = findViewById(R.id.tv_name);
+        tvSurname = findViewById(R.id.tv_surname);
+        tvDni = findViewById(R.id.tv_dni);
         etAddress = findViewById(R.id.et_address);
         etPhone = findViewById(R.id.et_phone);
         btnSaveData = findViewById(R.id.btn_save_data);
 
         // Recibir datos desde PerfilActivity
         Intent intent = getIntent();
-        String nameExtra = intent.getStringExtra("name");
-        String surnameExtra = intent.getStringExtra("surname");
+        originalName = intent.getStringExtra("name");
+        originalSurname = intent.getStringExtra("surname");
+        originalDni = intent.getStringExtra("dni");
         String addressExtra = intent.getStringExtra("address");
         String phoneExtra = intent.getStringExtra("phone");
 
-        etName.setText(nameExtra);
-        etSurname.setText(surnameExtra);
+        // Establecer valores en los campos
+        tvName.setText(originalName);
+        tvSurname.setText(originalSurname);
+        tvDni.setText(originalDni);
         etAddress.setText(addressExtra);
         etPhone.setText(phoneExtra);
 
-        // Borrar texto al enfocar si coincide con el original
-        setClearOnFocus(etName, nameExtra);
-        setClearOnFocus(etSurname, surnameExtra);
-        setClearOnFocus(etAddress, addressExtra);
-        setClearOnFocus(etPhone, phoneExtra);
-
         btnSaveData.setOnClickListener(v -> {
-            String name = etName.getText().toString().trim();
-            String surname = etSurname.getText().toString().trim();
             String address = etAddress.getText().toString().trim();
             String phone = etPhone.getText().toString().trim();
 
-            if (name.isEmpty() || surname.isEmpty() || address.isEmpty()) {
-                Toast.makeText(EditDataActivity.this, "Nombre, Apellido y dirección son obligatorios", Toast.LENGTH_SHORT).show();
+            if (address.isEmpty()) {
+                etAddress.setError("La dirección es obligatoria");
                 return;
             }
 
-            actualizarPerfil(name, surname, address, phone);
+            actualizarPerfil(originalDni, address, phone);
         });
-    }
-
-    private void setClearOnFocus(EditText editText, String originalValue) {
-        editText.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus && editText.getText().toString().equals(originalValue)) {
-                editText.setText("");
-            }
-        });
-    }
-
-    public static class AuthInterceptor implements Interceptor {
-        private final String token;
-        public AuthInterceptor(String token) {
-            this.token = token;
-        }
-
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request original = chain.request();
-            Request.Builder builder = original.newBuilder();
-            if (token != null && !token.isEmpty()) {
-                builder.header("Authorization", "Bearer " + token);
-            }
-            Request request = builder.build();
-            return chain.proceed(request);
-        }
     }
 
     public interface ApiService {
-        @PUT("api/v1/user/profile/")
+        @PATCH("api/v1/profiles/me/update/")
         Call<Void> updateUserProfile(@Body UpdateProfileRequest body);
     }
 
     public static class UpdateProfileRequest {
-        private String nombre;
-        private String apellido;
-        private String direccion;
-        private String telefono;
+        private String telephone;
+        private String dni;
+        private String address;
 
-        public UpdateProfileRequest(String nombre, String apellido, String direccion, String telefono) {
-            this.nombre = nombre;
-            this.apellido = apellido;
-            this.direccion = direccion;
-            this.telefono = telefono;
+        public UpdateProfileRequest(String dni, String address, String telephone) {
+            this.dni = dni;
+            this.address = address;
+            this.telephone = telephone;
         }
     }
 
-    private void actualizarPerfil(String nombre, String apellido, String direccion, String telefono) {
+    private void actualizarPerfil(String dni, String direccion, String telefono) {
         SessionManager sessionManager = new SessionManager(this);
         String token = sessionManager.getToken();
-        Log.d("EditDataActivity", "Token leído de SharedPreferences: " + token);
+
         if (token == null || token.isEmpty()) {
-            Toast.makeText(this, "No estás autenticado. Por favor inicia sesión.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No estás autenticado", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
+        // Configurar interceptor para logging
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(token))
+                .addInterceptor(loggingInterceptor)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -139,7 +117,10 @@ public class EditDataActivity extends AppCompatActivity {
 
         ApiService apiService = retrofit.create(ApiService.class);
 
-        UpdateProfileRequest request = new UpdateProfileRequest(nombre, apellido, direccion, telefono);
+        UpdateProfileRequest request = new UpdateProfileRequest(dni, direccion, telefono);
+
+        Log.d("EditDataActivity", "Enviando actualización: dni=" + dni +
+                ", dirección=" + direccion + ", teléfono=" + telefono);
 
         Call<Void> call = apiService.updateUserProfile(request);
 
@@ -148,22 +129,61 @@ public class EditDataActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(EditDataActivity.this, "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show();
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("name", nombre);
-                    resultIntent.putExtra("surname", apellido);
+
+                    // Crear intent para NavigatorDrawer en lugar de devolver resultado
+                    Intent resultIntent = new Intent(EditDataActivity.this, NavigatorDrawer.class);
+                    resultIntent.putExtra("name", originalName);
+                    resultIntent.putExtra("surname", originalSurname);
+                    resultIntent.putExtra("dni", originalDni);
                     resultIntent.putExtra("address", direccion);
                     resultIntent.putExtra("phone", telefono);
-                    setResult(RESULT_OK, resultIntent);
+
+                    // Limpiar el stack de actividades y empezar nueva navegación
+                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(resultIntent);
                     finish();
                 } else {
-                    Toast.makeText(EditDataActivity.this, "Error al actualizar perfil", Toast.LENGTH_SHORT).show();
+                    try {
+                        String errorBody = response.errorBody() != null ?
+                                response.errorBody().string() : "Error sin detalles";
+                        Log.e("EditDataActivity", "Error al actualizar: " + response.code() + " - " + errorBody);
+                        Toast.makeText(EditDataActivity.this,
+                                "Error al actualizar: " + errorBody,
+                                Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        Log.e("EditDataActivity", "Error al procesar mensaje de error", e);
+                        Toast.makeText(EditDataActivity.this,
+                                "Error al procesar la respuesta",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(EditDataActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                Log.e("EditDataActivity", "Error de conexión", t);
+                Toast.makeText(EditDataActivity.this,
+                        "Error de conexión: " + t.getMessage(),
+                        Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public static class AuthInterceptor implements Interceptor {
+        private final String token;
+
+        public AuthInterceptor(String token) {
+            this.token = token;
+        }
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request original = chain.request();
+            Request.Builder builder = original.newBuilder()
+                    .header("Authorization", "Bearer " + token)
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json");
+            return chain.proceed(builder.build());
+        }
     }
 }

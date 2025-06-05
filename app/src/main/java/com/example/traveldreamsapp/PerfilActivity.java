@@ -11,11 +11,15 @@ import android.widget.Toast;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.navigation.NavigationView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,9 +31,12 @@ import com.example.traveldreamsapp.models.UserProfileResponse;
 
 public class PerfilActivity extends AppCompatActivity {
 
-    private TextView tvName, tvSurname, tvEmail, tvPhone;
+    private TextView tvName, tvSurname, tvEmail, tvPhone, tvAddress, tvDni;
     private Button btnEditData, btnLogout;
     private ShapeableImageView profileImage;
+    private DrawerLayout drawerLayout;
+    private NavigationView navView;
+    private Toolbar toolbar;
 
     private static final int PICK_IMAGE = 100;
     private static final int REQUEST_PERMISSION_READ_STORAGE = 1;
@@ -43,10 +50,45 @@ public class PerfilActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
+        // Configuración del Navigation Drawer
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(this, MainActivity.class));
+            } else if (id == R.id.nav_perfil) {
+                // Ya estamos en el perfil, solo cerramos el drawer
+            } else if (id == R.id.nav_destinos) {
+                startActivity(new Intent(this, NavigatorDrawer.class));
+            } else if (id == R.id.nav_logout) {
+                logout();
+            }
+            // Añade más items según tu menú
+
+            drawerLayout.closeDrawers();
+            return true;
+        });
+
+        // Inicializar vistas
         tvName = findViewById(R.id.tv_name);
         tvSurname = findViewById(R.id.tv_full_name);
         tvEmail = findViewById(R.id.tv_email);
         tvPhone = findViewById(R.id.tv_phone);
+        tvAddress = findViewById(R.id.tv_address);
+        tvDni = findViewById(R.id.tv_dni);
 
         btnEditData = findViewById(R.id.btn_edit_data);
         btnLogout = findViewById(R.id.buttonLogout);
@@ -60,6 +102,7 @@ public class PerfilActivity extends AppCompatActivity {
             profileImage.setImageURI(imageUri);
         }
 
+        // Listeners
         profileImage.setOnClickListener(v -> {
             if (ContextCompat.checkSelfPermission(PerfilActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -76,12 +119,13 @@ public class PerfilActivity extends AppCompatActivity {
             intent.putExtra("surname", tvSurname.getText().toString());
             intent.putExtra("email", tvEmail.getText().toString());
             intent.putExtra("phone", tvPhone.getText().toString());
+            intent.putExtra("address", tvAddress.getText().toString());
+            intent.putExtra("dni", tvDni.getText().toString());
             startActivityForResult(intent, 1);
         });
 
         btnLogout.setOnClickListener(v -> logout());
 
-        // Cargar perfil desde backend al iniciar la actividad
         loadUserProfileFromBackend();
     }
 
@@ -107,10 +151,14 @@ public class PerfilActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     UserProfileResponse user = response.body();
 
-                    tvName.setText(user.getFirstName());
-                    tvSurname.setText(user.getLastName());
-                    tvEmail.setText(user.getEmail());
-                    tvPhone.setText(user.getTelephone());
+                    runOnUiThread(() -> {
+                        tvName.setText(user.getFirstName());
+                        tvSurname.setText(user.getLastName());
+                        tvEmail.setText(user.getEmail());
+                        tvPhone.setText(user.getTelephone());
+                        tvAddress.setText(user.getAddress());
+                        tvDni.setText(user.getDni());
+                    });
                 } else {
                     Toast.makeText(PerfilActivity.this, "Error al cargar perfil", Toast.LENGTH_SHORT).show();
                 }
@@ -140,38 +188,31 @@ public class PerfilActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             tvName.setText(data.getStringExtra("name"));
             tvSurname.setText(data.getStringExtra("surname"));
-            tvEmail.setText(data.getStringExtra("email"));
             tvPhone.setText(data.getStringExtra("phone"));
+            tvAddress.setText(data.getStringExtra("address"));
+            tvDni.setText(data.getStringExtra("dni"));
 
-            // Actualizar datos en backend con Retrofit
-            updateUserProfile(tvName.getText().toString(), tvSurname.getText().toString(),
-                    tvEmail.getText().toString(), tvPhone.getText().toString());
+            updateUserProfile(data.getStringExtra("address"),
+                    data.getStringExtra("phone"),
+                    data.getStringExtra("dni"));
         }
     }
 
-    private void updateUserProfile(String name, String surname, String email, String phone) {
+    private void updateUserProfile(String address, String telephone, String dni) {
         String token = sessionManager.getToken();
         if (token == null || token.isEmpty()) {
             Toast.makeText(this, "Token inválido o sesión no iniciada", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        ApiService apiService = RetrofitClient.getRetrofitInstance("https://dreamtravel.pythonanywhere.com/api/").create(ApiService.class);
-
-        ApiService.UpdateProfileRequest updateRequest = new ApiService.UpdateProfileRequest(name, surname, null, phone);
+        ApiService apiService = RetrofitClient.getRetrofitInstance(token).create(ApiService.class);
+        ApiService.UpdateProfileRequest updateRequest = new ApiService.UpdateProfileRequest(address, telephone);
 
         Call<UserProfileResponse> call = apiService.updateUserProfile("Bearer " + token, updateRequest);
         call.enqueue(new Callback<UserProfileResponse>() {
             @Override
             public void onResponse(Call<UserProfileResponse> call, Response<UserProfileResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    UserProfileResponse updatedUser = response.body();
-
-                    tvName.setText(updatedUser.getFirstName());
-                    tvSurname.setText(updatedUser.getLastName());
-                    tvEmail.setText(updatedUser.getEmail());
-                    tvPhone.setText(updatedUser.getTelephone());
-
                     Toast.makeText(PerfilActivity.this, "Perfil actualizado", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(PerfilActivity.this, "Error al actualizar perfil", Toast.LENGTH_SHORT).show();
@@ -205,5 +246,14 @@ public class PerfilActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(navView)) {
+            drawerLayout.closeDrawers();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
