@@ -28,7 +28,7 @@ public class NavigatorDrawer extends AppCompatActivity {
     private ActivityNavigatorDrawerBinding binding;
     private NavController navController;
     private DrawerLayout drawer;
-    // private SessionManager sessionManager; // Descomentar si necesitamos manejo de sesión
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +43,13 @@ public class NavigatorDrawer extends AppCompatActivity {
         drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
+        // Inicializar SessionManager
+        sessionManager = new SessionManager(this);
+
         // Configuración del NavController
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation_drawer);
 
-        // Configuración del AppBarConfiguration (incluyendo nav_cart)
+        // Configuración del AppBarConfiguration
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_destinos, R.id.nav_perfil,
                 R.id.nav_contacto, R.id.nav_nosotros, R.id.nav_cart)
@@ -92,7 +95,7 @@ public class NavigatorDrawer extends AppCompatActivity {
             } else if (id == R.id.nav_privacy_policy) {
                 startActivity(new Intent(this, PoliticaPrivacidad.class));
             } else if (id == R.id.nav_logout) {
-                // sessionManager.clearSession(); // Descomenta si usas SessionManager
+                sessionManager.clearSession();
                 Snackbar.make(binding.getRoot(), "Cerrando Sesión desde Drawer...", Snackbar.LENGTH_LONG)
                         .setAction("Cerrar", view -> {})
                         .show();
@@ -101,7 +104,13 @@ public class NavigatorDrawer extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             } else if (id == R.id.nav_perfil) {
-                startActivity(new Intent(this, PerfilActivity.class));
+                // Redirección directa según estado de autenticación
+                if (sessionManager.isLoggedIn()) {
+                    startActivity(new Intent(this, PerfilActivity.class));
+                } else {
+                    Intent loginIntent = new Intent(this, LoginActivity.class);
+                    startActivity(loginIntent);
+                }
             } else {
                 NavigationUI.onNavDestinationSelected(item, navController);
             }
@@ -109,8 +118,6 @@ public class NavigatorDrawer extends AppCompatActivity {
             drawer.closeDrawer(GravityCompat.START);
             return true;
         });
-
-        // sessionManager = new SessionManager(this); // Descomentar si usamos SessionManager
     }
 
     @Override
