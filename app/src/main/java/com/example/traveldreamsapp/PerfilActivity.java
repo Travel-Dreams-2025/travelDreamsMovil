@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
+import androidx.core.view.GravityCompat;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,6 +21,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.text.HtmlCompat;
+import androidx.appcompat.app.AlertDialog;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,77 +41,110 @@ public class PerfilActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navView;
     private Toolbar toolbar;
+    private SessionManager sessionManager;
 
     private static final int PICK_IMAGE = 100;
     private static final int REQUEST_PERMISSION_READ_STORAGE = 1;
-
-    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
+        // Inicializar SessionManager
         sessionManager = new SessionManager(this);
 
-        // Configuración del Navigation Drawer
+        // Configuración del Toolbar y Navigation Drawer
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         drawerLayout = findViewById(R.id.drawer_layout);
         navView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbar);
 
-        setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
-        );
+                R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        // Configurar el listener del menú de navegación
         navView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
 
             if (id == R.id.nav_home) {
                 startActivity(new Intent(this, MainActivity.class));
             } else if (id == R.id.nav_perfil) {
-                // Ya estamos en el perfil, solo cerramos el drawer
+                // Ya estamos en perfil, solo cerramos el drawer
+                drawerLayout.closeDrawer(GravityCompat.START);
             } else if (id == R.id.nav_destinos) {
                 startActivity(new Intent(this, NavigatorDrawer.class));
+            } else if (id == R.id.nav_cart) {
+                // Aquí puedes agregar la lógica para el carrito
+                Snackbar.make(drawerLayout, "Funcionalidad de carrito en desarrollo", Snackbar.LENGTH_SHORT).show();
+            } else if (id == R.id.nav_help) {
+                Snackbar.make(drawerLayout, "Clic en Ayuda desde Drawer", Snackbar.LENGTH_LONG)
+                        .setAction("Cerrar", view -> {}).show();
+            } else if (id == R.id.nav_about) {
+                mostrarDialogoAcercaDe();
+            } else if (id == R.id.nav_privacy_policy) {
+                startActivity(new Intent(this, PoliticaPrivacidad.class));
             } else if (id == R.id.nav_logout) {
                 logout();
             }
-            // Añade más items según tu menú
 
-            drawerLayout.closeDrawers();
+            drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
 
-        // Inicializar vistas
+        // Inicializar vistas del perfil
         tvName = findViewById(R.id.tv_name);
         tvSurname = findViewById(R.id.tv_full_name);
         tvEmail = findViewById(R.id.tv_email);
         tvPhone = findViewById(R.id.tv_phone);
         tvAddress = findViewById(R.id.tv_address);
         tvDni = findViewById(R.id.tv_dni);
-
         btnEditData = findViewById(R.id.btn_edit_data);
         btnLogout = findViewById(R.id.buttonLogout);
         profileImage = findViewById(R.id.profile_image);
 
         // Cargar imagen de perfil guardada
+        cargarImagenPerfil();
+
+        // Configurar listeners
+        configurarListeners();
+
+        // Cargar datos del perfil desde el backend
+        loadUserProfileFromBackend();
+    }
+
+    private void mostrarDialogoAcercaDe() {
+        String htmlString = getString(R.string.about_software_info);
+        CharSequence formattedText = HtmlCompat.fromHtml(htmlString, HtmlCompat.FROM_HTML_MODE_LEGACY);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Acerca de Travel Dreams App")
+                .setMessage(formattedText)
+                .setPositiveButton("Cerrar", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    private void cargarImagenPerfil() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String imageUriString = sharedPreferences.getString("profileImageUri", null);
         if (imageUriString != null) {
             Uri imageUri = Uri.parse(imageUriString);
             profileImage.setImageURI(imageUri);
         }
+    }
 
-        // Listeners
+    private void configurarListeners() {
         profileImage.setOnClickListener(v -> {
-            if (ContextCompat.checkSelfPermission(PerfilActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(PerfilActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_READ_STORAGE);
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_PERMISSION_READ_STORAGE);
             } else {
                 openGallery();
             }
@@ -125,8 +162,6 @@ public class PerfilActivity extends AppCompatActivity {
         });
 
         btnLogout.setOnClickListener(v -> logout());
-
-        loadUserProfileFromBackend();
     }
 
     private void openGallery() {
@@ -250,8 +285,8 @@ public class PerfilActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(navView)) {
-            drawerLayout.closeDrawers();
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
