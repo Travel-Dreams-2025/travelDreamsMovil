@@ -9,143 +9,147 @@
     android:background="@drawable/fondo_degradado_dos"
     tools:context=".PerfilActivity">
 
-    <!-- Contenido principal -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- Contenido principal - debe ser el primer hijo en el DrawerLayout -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <!-- Toolbar -->
+        <!-- Toolbar debe estar fuera del ConstraintLayout -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/fondo_degradado_dos"
             android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-        <!-- CardView que agrupa el perfil -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="56dp"
-            android:background="@android:color/white"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+        <!-- Contenido del perfil -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="686dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="16dp">
+            <!-- CardView que agrupa el perfil -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="56dp"
+                android:background="@android:color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/imageView"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="90dp"
-                    android:layout_marginTop="-60dp"
-                    app:srcCompat="@drawable/logo_contraste" />
+                    android:layout_height="686dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <!-- Foto de perfil -->
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/profile_image"
-                    android:layout_width="128dp"
-                    android:layout_height="142dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:src="@drawable/editar_perfil"
-                    app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="90dp"
+                        android:layout_marginTop="-60dp"
+                        app:srcCompat="@drawable/logo_contraste" />
 
-                <!-- Nombre -->
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Nombre"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    <!-- Foto de perfil -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="128dp"
+                        android:layout_height="142dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:src="@drawable/editar_perfil"
+                        app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
 
-                <!-- Apellido -->
-                <TextView
-                    android:id="@+id/tv_full_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Apellido"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    <!-- Nombre -->
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Nombre"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <!-- DNI -->
-                <TextView
-                    android:id="@+id/tv_dni"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="DNI"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    <!-- Apellido -->
+                    <TextView
+                        android:id="@+id/tv_full_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Apellido"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <!-- Email -->
-                <TextView
-                    android:id="@+id/tv_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Email"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    <!-- DNI -->
+                    <TextView
+                        android:id="@+id/tv_dni"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="DNI"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <!-- Telefono -->
-                <TextView
-                    android:id="@+id/tv_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Telefono"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    <!-- Email -->
+                    <TextView
+                        android:id="@+id/tv_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Email"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <!-- Dirección -->
-                <TextView
-                    android:id="@+id/tv_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="Dirección"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    <!-- Telefono -->
+                    <TextView
+                        android:id="@+id/tv_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Telefono"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <!-- Botón Modificar Datos -->
-                <Button
-                    android:id="@+id/btn_edit_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Modificar Datos" />
+                    <!-- Dirección -->
+                    <TextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="Dirección"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <!-- Botón Cerrar Sesión -->
-                <Button
-                    android:id="@+id/buttonLogout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Cerrar Sesión" />
+                    <!-- Botón Modificar Datos -->
+                    <Button
+                        android:id="@+id/btn_edit_data"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Modificar Datos" />
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <!-- Botón Cerrar Sesión -->
+                    <Button
+                        android:id="@+id/buttonLogout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cerrar Sesión" />
 
-    <!-- Menú desplegable -->
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <!-- NavigationView debe ser el segundo hijo en el DrawerLayout -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

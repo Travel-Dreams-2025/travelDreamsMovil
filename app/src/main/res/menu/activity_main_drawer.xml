@@ -32,6 +32,11 @@
                 android:id="@+id/nav_cart"
                 android:icon="@drawable/ic_cart"
                 android:title="@string/menu_cart" />
+
+            <item
+                android:id="@+id/nav_web_version"
+                android:icon="@drawable/ic_web"
+            android:title="Visítanos en nuestra versión WEB"/>
             <item
                 android:id="@+id/nav_help"
                 android:icon="@drawable/ic_help"
