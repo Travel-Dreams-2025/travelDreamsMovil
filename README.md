@@ -14,8 +14,18 @@ Permite a los usuarios explorar destinos nacionales e internacionales, consultar
 Ofrecer una experiencia de compra fácil, intuitiva y segura para viajes turísticos.
 Travel Dreams busca facilitar la planificación de vacaciones, brindando acceso a una amplia variedad de destinos desde cualquier dispositivo, permitiendo a los usuarios descubrir, seleccionar y disfrutar del mundo con total comodidad y confianza.  
 
-## Travel Dreams: Aplicación Movil JAVA
-![app web](https://drive.google.com/uc?export=view&id=1ZUqaxMlVSK-GgxdHugNOa6fsBrw3Km6Q)
+## Características Principales:
+
+* **Pantalla de Bienvenida**: Una pantalla inicial con una imagen atractiva y un botón de "Explorar" para guiar al usuario a la sección de destinos turísticos.
+* **Exploración de Destinos Turísticos**: Una lista de destinos turísticos disponibles con título, subtítulo, e imagen. Los usuarios pueden seleccionar un destino para ver más detalles.
+* **Información de Destino Individual**: Pantalla que muestra información detallada de un destino seleccionado, incluyendo título, descripción, fotos, cantidad de paquetes disponibles, precio e información relevante. Incluye un botón de "Comprar".
+* **Inicio de Sesión/Registro**: Funcionalidad para que los usuarios inicien sesión o se registren antes de realizar una compra. Incluye seguridad robusta y manejo seguro de datos personales.
+* * **Cambio de datos de usuario**: Funcionalidad de actualizar los datos de Dirección y teléfono del usuario autenticado.
+* **Implementación de carrito**: Funcionalidad para gestionar/comprar los destinos seleccionados por el usuario.
+* **Información sobre versión y despliegue de Android**: Detalles de tecnología utilizada e información de los desarrolladores.
+* * **Posibilidad de acceso a la versión Web**: Acceso y linkeo al despliegue web de la aplicación de Travel Dreams.
+* * **Función de recuperar contraseña**: Posibilidad de resetar/cambiar la contraseña en caso de habérsela olvidado.
+* **Ciberseguridad**: Protección de datos personales y de pago, asegurando la confidencialidad y seguridad durante la exploración y compra de destinos turísticos.
 
 
 ## Travel Dreams: Aplicación Móvil
