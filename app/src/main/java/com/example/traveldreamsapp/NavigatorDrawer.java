@@ -1,6 +1,7 @@
 package com.example.traveldreamsapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -111,6 +112,12 @@ public class NavigatorDrawer extends AppCompatActivity {
                     Intent loginIntent = new Intent(this, LoginActivity.class);
                     startActivity(loginIntent);
                 }
+            } else if (id == R.id.nav_web_version) {
+                // Nuevo ítem para abrir la versión web
+                String url = "https://traveldreams-vercel.vercel.app/";
+                Intent webIntent = new Intent(Intent.ACTION_VIEW);
+                webIntent.setData(Uri.parse(url));
+                startActivity(webIntent);
             } else {
                 NavigationUI.onNavDestinationSelected(item, navController);
             }
