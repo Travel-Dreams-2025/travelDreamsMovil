@@ -1,5 +1,3 @@
-// app/src/main/java/com/example/traveldreamsapp/ui/home/HomeFragment.java
-
 package com.example.traveldreamsapp.ui.home;
 
 import android.os.Bundle;
@@ -7,8 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView; // Mantener esta importación
-import android.widget.TextView;  // Mantener esta importación
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView; // Mantener esta importación
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.traveldreamsapp.R;
 import com.example.traveldreamsapp.adapter.DestinosAdapter;
@@ -27,15 +25,13 @@ import com.example.traveldreamsapp.models.Destinos;
 import com.example.traveldreamsapp.network.ApiClient;
 import com.example.traveldreamsapp.network.ApiService;
 
-// Importaciones para el clima (todas las que tenías)
-import com.example.traveldreamsapp.models.DailyForecast;
+import com.example.traveldreamsapp.models.RealtimeWeatherResponse;
 import com.example.traveldreamsapp.models.WeatherCodeMapper;
-import com.example.traveldreamsapp.models.WeatherForecastResponse;
 import com.example.traveldreamsapp.network.TomorrowioApiService;
 import com.example.traveldreamsapp.network.RetrofitClientTomorrowio;
 
-import java.io.IOException; // Mantener esta importación para el manejo de errorBody
-import java.util.ArrayList; // Mantener esta importación
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -49,17 +45,16 @@ public class HomeFragment extends Fragment implements DestinosAdapter.OnItemClic
     private List<Destinos> destinos = new ArrayList<>();
     private DestinosAdapter destinosAdapter;
 
-    // Vistas del clima
     private TextView textViewTemperature;
     private ImageView imageViewWeatherIcon;
     private TextView textViewWeatherCondition;
 
     private static final String TAG = "WeatherIntegration";
-    private static final String TOMORROW_IO_API_KEY = "i2jAyklSRVw7Fh9is8eA1gzPn7KhfZPw"; // ¡Asegúrate de que esta sea tu clave real!
-    private static final String LOCATION_COORDS = "-31.4167,-64.1833"; // Coordenadas de Córdoba, Argentina
+    private static final String TOMORROW_IO_API_KEY = "i2jAyklSRVw7Fh9is8eA1gzPn7KhfZPw";
+    private static final String LOCATION_COORDS = "-31.4167,-64.1833";
     private static final String UNITS = "metric";
-    private static final String TIMESTEPS = "1d";
-    private static final String FIELDS = "temperatureAvg,temperatureMax,temperatureMin,weatherCodeMax,weatherCodeMin,windSpeedAvg";
+
+    private static final String FIELDS = "temperature,weatherCode,temperatureApparent,windSpeed";
 
 
     @Nullable
@@ -71,15 +66,12 @@ public class HomeFragment extends Fragment implements DestinosAdapter.OnItemClic
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // Inicializar vistas del clima
         textViewTemperature = root.findViewById(R.id.textViewTemperature);
         imageViewWeatherIcon = root.findViewById(R.id.imageViewWeatherIcon);
         textViewWeatherCondition = root.findViewById(R.id.textViewWeatherCondition);
 
-        // Llamar a la API del clima
-        fetchWeatherForecast();
+        fetchRealtimeWeather();
 
-        // Configuración y muestra de destinos (tu lógica existente)
         setupRecyclerView();
         showDestinos();
 
@@ -103,70 +95,65 @@ public class HomeFragment extends Fragment implements DestinosAdapter.OnItemClic
                     destinosAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "No se encontraron destinos o error en la respuesta", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "Error al cargar destinos: " + response.code() + " " + response.message()); // Mantener esta línea de log
+                    Log.e(TAG, "Error al cargar destinos: " + response.code() + " " + response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Destinos>> call, Throwable throwable) {
-                Toast.makeText(getContext(), "ERROR DE CONEXIÓN: " + throwable.getMessage(), Toast.LENGTH_SHORT).show(); // Mantener este Toast
-                Log.e(TAG, "Fallo al cargar destinos: " + throwable.getMessage(), throwable); // Mantener esta línea de log
+                Toast.makeText(getContext(), "ERROR DE CONEXIÓN: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Fallo al cargar destinos: " + throwable.getMessage(), throwable);
             }
         });
     }
 
-    private void fetchWeatherForecast() {
+    private void fetchRealtimeWeather() {
         TomorrowioApiService apiService = RetrofitClientTomorrowio.getTomorrowioApiService();
 
-        apiService.getForecast(LOCATION_COORDS, TOMORROW_IO_API_KEY, UNITS, TIMESTEPS, FIELDS)
-                .enqueue(new Callback<WeatherForecastResponse>() {
+        apiService.getRealtimeWeather(LOCATION_COORDS, TOMORROW_IO_API_KEY, UNITS, FIELDS)
+                .enqueue(new Callback<RealtimeWeatherResponse>() {
                     @Override
-                    public void onResponse(Call<WeatherForecastResponse> call, Response<WeatherForecastResponse> response) {
+                    public void onResponse(Call<RealtimeWeatherResponse> call, Response<RealtimeWeatherResponse> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            WeatherForecastResponse weatherResponse = response.body();
+                            RealtimeWeatherResponse realtimeResponse = response.body();
+                            Log.d(TAG, "Respuesta COMPLETA de la API (Realtime) en HomeFragment: " + realtimeResponse.toString());
 
-                            Log.d(TAG, "Respuesta COMPLETA de la API: " + response.body().toString());
+                            if (realtimeResponse.getData() != null && realtimeResponse.getData().getValues() != null) {
+                                Double currentTemp = realtimeResponse.getData().getValues().getTemperature();
+                                Integer weatherCode = realtimeResponse.getData().getValues().getWeatherCode();
+                                Double apparentTemp = realtimeResponse.getData().getValues().getTemperatureApparent();
 
-                            if (weatherResponse.getTimelines() != null &&
-                                    weatherResponse.getTimelines().getDaily() != null &&
-                                    !weatherResponse.getTimelines().getDaily().isEmpty()) {
-
-                                DailyForecast todayForecast = weatherResponse.getTimelines().getDaily().get(0);
-
-                                if (todayForecast != null && todayForecast.getValues() != null) {
-                                    Double tempAvg = todayForecast.getValues().getTemperatureAvg();
-                                    Integer weatherCodeMax = todayForecast.getValues().getWeatherCodeMax();
-
-                                    if (tempAvg != null) {
-                                        textViewTemperature.setText(String.format("%.0f°C", tempAvg));
-                                    } else {
-                                        textViewTemperature.setText("--°C");
-                                    }
-
-                                    if (weatherCodeMax != null) {
-                                        Log.d(TAG, "DEBUG: weatherCodeMax recibido de la API: " + weatherCodeMax);
-
-                                        imageViewWeatherIcon.setImageResource(WeatherCodeMapper.getWeatherIconResId(weatherCodeMax));
-                                        textViewWeatherCondition.setText(WeatherCodeMapper.getWeatherConditionText(weatherCodeMax));
-                                    } else {
-                                        Log.d(TAG, "weatherCodeMax es nulo, mostrando 'Desconocido'");
-                                        imageViewWeatherIcon.setImageResource(R.drawable.ic_clima_desconocido);
-                                        textViewWeatherCondition.setText("Desconocido");
-                                    }
-
+                                if (currentTemp != null) {
+                                    textViewTemperature.setText(String.format("%.0f°C", currentTemp));
                                 } else {
-                                    Log.e(TAG, "Valores de pronóstico diario nulos o vacíos.");
                                     textViewTemperature.setText("--°C");
-                                    imageViewWeatherIcon.setImageResource(R.drawable.ic_clima_desconocido);
-                                    textViewWeatherCondition.setText("No hay valores de clima");
                                 }
+
+                                Log.d(TAG, "DEBUG en HomeFragment: weatherCode recibido (Realtime): " + weatherCode);
+
+                                if (weatherCode != null) {
+                                    int iconResId = WeatherCodeMapper.getWeatherIconResId(weatherCode);
+                                    imageViewWeatherIcon.setImageResource(iconResId);
+
+                                    String weatherCondition = WeatherCodeMapper.getWeatherConditionText(weatherCode);
+                                    if (apparentTemp != null) {
+                                        textViewWeatherCondition.setText(String.format("%s (ST %.0f°C)", weatherCondition, apparentTemp));
+                                    } else {
+                                        textViewWeatherCondition.setText(weatherCondition);
+                                    }
+                                } else {
+                                    Log.d(TAG, "weatherCode es nulo en tiempo real, mostrando 'Desconocido'");
+                                    imageViewWeatherIcon.setImageResource(R.drawable.ic_clima_desconocido);
+                                    textViewWeatherCondition.setText("Desconocido");
+                                }
+
+                                Log.d(TAG, "Clima cargado en HomeFragment (Realtime): " + textViewWeatherCondition.getText() + " " + textViewTemperature.getText());
                             } else {
-                                Log.e(TAG, "No hay pronóstico diario disponible o timelines es nulo/vacío.");
+                                Log.e(TAG, "Valores de clima en tiempo real son nulos o vacíos en HomeFragment.");
                                 textViewTemperature.setText("--°C");
                                 imageViewWeatherIcon.setImageResource(R.drawable.ic_clima_desconocido);
-                                textViewWeatherCondition.setText("No hay pronóstico diario");
+                                textViewWeatherCondition.setText("Datos de clima no disponibles");
                             }
-
                         } else {
                             String errorBody = "N/A";
                             try {
@@ -175,9 +162,9 @@ public class HomeFragment extends Fragment implements DestinosAdapter.OnItemClic
                                 }
                             } catch (IOException e) {
                                 errorBody = "Error al leer errorBody";
-                                Log.e(TAG, "Error al leer errorBody: " + e.getMessage());
+                                Log.e(TAG, "Error al leer errorBody en HomeFragment: " + e.getMessage());
                             }
-                            Log.e(TAG, "Error en la respuesta de la API del clima: Código " + response.code() + ", Mensaje: " + response.message() + ", Body: " + errorBody);
+                            Log.e(TAG, "Error en la respuesta de la API del clima (Realtime) en HomeFragment: Código " + response.code() + ", Mensaje: " + response.message() + ", Body: " + errorBody);
                             Toast.makeText(getContext(), "Error al cargar el clima: " + response.code(), Toast.LENGTH_LONG).show();
                             textViewTemperature.setText("--°C");
                             imageViewWeatherIcon.setImageResource(R.drawable.ic_clima_desconocido);
@@ -186,8 +173,8 @@ public class HomeFragment extends Fragment implements DestinosAdapter.OnItemClic
                     }
 
                     @Override
-                    public void onFailure(Call<WeatherForecastResponse> call, Throwable t) {
-                        Log.e(TAG, "Fallo al conectar con la API del clima: " + t.getMessage(), t);
+                    public void onFailure(Call<RealtimeWeatherResponse> call, Throwable t) {
+                        Log.e(TAG, "Fallo al conectar con la API del clima (Realtime) en HomeFragment: " + t.getMessage(), t);
                         Toast.makeText(getContext(), "ERROR DE RED AL CARGAR CLIMA", Toast.LENGTH_LONG).show();
                         textViewTemperature.setText("--°C");
                         imageViewWeatherIcon.setImageResource(R.drawable.ic_clima_desconocido);
