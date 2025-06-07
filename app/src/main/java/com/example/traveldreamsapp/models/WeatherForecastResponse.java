@@ -14,7 +14,7 @@ public class WeatherForecastResponse {
         return timelines;
     }
 
-    // Puedes añadir el getter para location si lo necesitas en el futuro
+    // Puedes añadir el getter para location en el futuro
     public Location getLocation() {
         return location;
     }

@@ -12,7 +12,7 @@ public class WeatherCodeMapper {
         }
 
         switch (weatherCode) {
-            // Mapeo basado ESTRICTAMENTE en los nombres de drawables de tu imagen estosss.jpg:
+            // Mapeo de drawables de imagenes .jpg:
             case 1000: // Despejado, Soleado
                 return R.drawable.ic_clima_soleado; // Este era ic_clima_soleado.xml
             case 1001: // Nublado

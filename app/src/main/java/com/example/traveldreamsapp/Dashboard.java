@@ -28,8 +28,8 @@ public class Dashboard extends AppCompatActivity {
     private static final String TAG = "WeatherIntegration";
     // Tu API Key de Tomorrow.io confirmada
     private static final String TOMORROW_IO_API_KEY = "i2jAyklSRVw7Fh9is8eA1gzPn7KhfZPw";
-    // Coordenadas de Córdoba, Argentina (mantengo las que usas en el código)
-    // Si quieres las de Boston (42.3478,-71.0466), CÁMBIALAS AQUÍ Y EN HomeFragment.java
+    // Coordenadas de Córdoba, Argentina (mantengo la de la api)
+
     private static final String LOCATION_COORDS = "-31.4167,-64.1833";
     private static final String UNITS = "metric";
     private static final String TIMESTEPS = "1d";
