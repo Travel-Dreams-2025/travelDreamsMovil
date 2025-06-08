@@ -12,7 +12,7 @@ public class DailyWeatherValues {
     @SerializedName("temperatureMin")
     private Double temperatureMin;
 
-    // Estos son los que necesitamos porque vienen en la API según tus logs
+    // Logs de Api
     @SerializedName("weatherCodeMax")
     private Integer weatherCodeMax;
     @SerializedName("weatherCodeMin")
@@ -20,7 +20,7 @@ public class DailyWeatherValues {
 
     @SerializedName("windSpeedAvg")
     private Double windSpeedAvg;
-    @SerializedName("weatherCodeFullNight") // Este puede estar en tu JSON, si no, lo quitas.
+    @SerializedName("weatherCodeFullNight") // JSON,
     private Integer weatherCodeFullNight;
 
 
