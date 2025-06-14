@@ -112,23 +112,30 @@
 
 
 
-    <!--Destinos - ITEM CARRITO -->
+    <!-- ITEM CARRITO -->
     <string name="cartItTitulo">TITULO DEL DESTINO</string>
     <string name="cartItFechaSalida">Salida</string>
+    <string name="cartItFechaSalidaNum">YYYY-MM-DD</string>
     <string name="cartItCupos">Cupos</string>
+    <string name="cartItCuposNum">XX</string>
     <string name="cartItCantidad">Cant.</string>
-    <string name="cartItPrecio">Precio</string>
+    <string name="cartItPrecio">Sub T</string>
+    <string name="cartItPrecioNum">$0.00</string>
+    <string name="cartItPrecioU">Precio</string>
+    <string name="cartItPrecioUnum">$0.00</string>
     <string name="cartItEliminar">Eliminar</string>
     <string name="cartItDescImag">Descripcion de Imagen del Prodúcto</string>
     <string name="cartItBtnComprarYa">Comprar Ahora</string>
     <string name="cartItSeleccionarTodo">Seleccionar Todo</string>
-
-
+    <string name="cartItSuma">+</string>
+    <string name="cartItResta">-</string>
+    <string name="cartItnum">1</string>
 
     <!--Fragment Carrito-->
     <string name="FCmedios_pago">Elegí el medio de pago:</string>
     <string name="FCTotal">Total:</string>
-    <string name="FDFinalizarcompra">Finalizar Compra</string>
+    <string name="FCFinalizarcompra">Finalizar Compra</string>
+    <string name="FCSeleccionarTodo">Seleccionar Todo</string>
 
 
 
