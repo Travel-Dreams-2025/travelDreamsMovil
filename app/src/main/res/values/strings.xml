@@ -130,6 +130,8 @@
     <string name="cartItSuma">+</string>
     <string name="cartItResta">-</string>
     <string name="cartItnum">1</string>
+    <string name="cartItmedios_pago">Elegí el medio de pago:</string>
+
 
     <!--Fragment Carrito-->
     <string name="FCmedios_pago">Elegí el medio de pago:</string>

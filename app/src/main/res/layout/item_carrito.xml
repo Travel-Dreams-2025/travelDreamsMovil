@@ -192,6 +192,18 @@
                 </LinearLayout>
             </LinearLayout>
             <!-- Fin Stepper -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cartItmedios_pago"
+                android:layout_marginTop="8dp"
+                android:textSize="14sp" />
+
+            <Spinner
+                android:id="@+id/item_spinner_medio_pago"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="12dp" />
 
         </LinearLayout>
 
@@ -209,13 +221,14 @@
 
     <Button
         android:id="@+id/btn_comprar_ahora"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginTop="8dp"
         android:text="@string/cartItBtnComprarYa"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
+        android:paddingHorizontal="16dp"
         android:paddingVertical="12dp" />
 
 </LinearLayout>
