@@ -14,12 +14,6 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <CheckBox
-            android:id="@+id/checkbox_seleccion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"/>
-
         <ImageView
             android:id="@+id/iv_image"
             android:layout_width="64dp"
@@ -192,18 +186,6 @@
                 </LinearLayout>
             </LinearLayout>
             <!-- Fin Stepper -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cartItmedios_pago"
-                android:layout_marginTop="8dp"
-                android:textSize="14sp" />
-
-            <Spinner
-                android:id="@+id/item_spinner_medio_pago"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="12dp" />
 
         </LinearLayout>
 
@@ -216,19 +198,9 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:minHeight="48dp"
             android:minWidth="48dp"
-            android:padding="8dp"/>
+            android:padding="8dp"
+            android:clickable="true"
+            android:focusable="true"/>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_comprar_ahora"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="8dp"
-        android:text="@string/cartItBtnComprarYa"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp" />
 
 </LinearLayout>

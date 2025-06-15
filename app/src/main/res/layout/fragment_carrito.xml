@@ -30,22 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/cart_it_checkbox_shape"
-            android:padding="8dp"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal"
-            android:gravity="end">
-
-            <CheckBox
-                android:id="@+id/checkbox_seleccionar_todo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/FCSeleccionarTodo"/>
-        </LinearLayout>
-
         <TextView
             android:id="@+id/txt_total_carrito"
             android:layout_width="wrap_content"
@@ -76,5 +60,15 @@
             android:textAllCaps="false"
             android:textColor="@android:color/white"/>
     </LinearLayout>
+
+     <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
