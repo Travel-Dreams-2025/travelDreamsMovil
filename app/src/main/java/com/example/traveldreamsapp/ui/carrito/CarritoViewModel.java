@@ -1,6 +1,6 @@
 package com.example.traveldreamsapp.ui.carrito;
 
-import androidx.annotation.NonNull;  // <-- Import para las anotaciones NonNull
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -52,7 +52,6 @@ public class CarritoViewModel extends ViewModel {
                     repository.guardarCarritoLocal(response.body());
                 } else {
                     errorMessage.setValue("Error al cargar el carrito");
-                    // Intentar cargar desde local si falla el remoto
                     cargarCarritoLocal();
                 }
             }
@@ -91,7 +90,7 @@ public class CarritoViewModel extends ViewModel {
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 isLoading.setValue(false);
                 if (response.isSuccessful()) {
-                    cargarCarrito(); // Recargar el carrito después de eliminar
+                    cargarCarrito();
                 } else {
                     errorMessage.setValue("Error al eliminar el item");
                 }
@@ -112,9 +111,30 @@ public class CarritoViewModel extends ViewModel {
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 isLoading.setValue(false);
                 if (response.isSuccessful()) {
-                    cargarCarrito(); // Recargar el carrito después de actualizar
+                    cargarCarrito();
                 } else {
                     errorMessage.setValue("Error al actualizar la cantidad");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                isLoading.setValue(false);
+                errorMessage.setValue("Error de conexión: " + t.getMessage());
+            }
+        });
+    }
+
+    public void actualizarFecha(int idCompra, String nuevaFecha) {
+        isLoading.setValue(true);
+        repository.actualizarFechaRemoto(idCompra, nuevaFecha, new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                isLoading.setValue(false);
+                if (response.isSuccessful()) {
+                    cargarCarrito();
+                } else {
+                    errorMessage.setValue("Error al actualizar la fecha");
                 }
             }
 

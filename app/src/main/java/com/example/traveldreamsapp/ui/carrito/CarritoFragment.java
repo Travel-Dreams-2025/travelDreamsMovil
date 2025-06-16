@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.traveldreamsapp.LoginActivity;
 import com.example.traveldreamsapp.R;
 import com.example.traveldreamsapp.SessionManager;
 import com.example.traveldreamsapp.adapter.CarritoAdapter;
@@ -23,8 +24,7 @@ import com.example.traveldreamsapp.databinding.FragmentCarritoBinding;
 import com.example.traveldreamsapp.models.MetodoPago;
 import com.example.traveldreamsapp.repository.CarritoRepository;
 import java.util.Locale;
-
-
+import android.content.Intent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +40,7 @@ public class CarritoFragment extends Fragment implements CarritoAdapter.OnCarrit
                              Bundle savedInstanceState) {
         binding = FragmentCarritoBinding.inflate(inflater, container, false);
         return binding.getRoot();
+
     }
 
     @Override
@@ -103,10 +104,17 @@ public class CarritoFragment extends Fragment implements CarritoAdapter.OnCarrit
 
         // Verificar si el usuario está logueado
         SessionManager sessionManager = new SessionManager(requireContext());
-        if (!sessionManager.isLoggedIn()) {
-            Toast.makeText(requireContext(), "Debe iniciar sesión para ver el carrito", Toast.LENGTH_SHORT).show();
-            // Aquí podrías redirigir al login si lo deseas
+
+        if (sessionManager.isLoggedIn()) {
+            carritoViewModel.cargarCarrito(); // ✅ Cargar el carrito si está logueada
+        } else {
+            Toast.makeText(requireContext(), "Debes iniciar sesión para ver el carrito", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(requireContext(), LoginActivity.class);
+            startActivity(intent);
+            requireActivity().finish(); // Opcional: cerrar fragmento actual para evitar regresar con el botón atrás
+            return;
         }
+
     }
 
     private void setupMetodosPagoSpinner() {
