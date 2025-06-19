@@ -2,10 +2,23 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Contenedor inferior -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_carrito"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/layout_inferior"
+        tools:listitem="@layout/item_carrito"/>
+
     <LinearLayout
         android:id="@+id/layout_inferior"
         android:layout_width="0dp"
@@ -17,24 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Fondo decorativo para el checkbox -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/cart_it_checkbox_shape"
-            android:padding="8dp"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal"
-            android:gravity="end">
-
-            <CheckBox
-                android:id="@+id/checkbox_seleccionar_todo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cartItSeleccionarTodo"/>
-        </LinearLayout>
-
-        <!-- Total -->
         <TextView
             android:id="@+id/txt_total_carrito"
             android:layout_width="wrap_content"
@@ -44,30 +39,36 @@
             android:textSize="18sp"
             android:textColor="#000000" />
 
-        <!-- Método de pago -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/FCmedios_pago"
             android:layout_marginTop="8dp"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <Spinner
             android:id="@+id/spinner_medio_pago"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:entries="@array/fgmt_dst_medios_pago"
             android:layout_marginBottom="12dp" />
 
-        <!-- Botón de checkout -->
         <Button
             android:id="@+id/btn_finalizar_compra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/FDFinalizarcompra"
+            android:text="@string/FCFinalizarcompra"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:gravity="center"/>
+            android:textColor="@android:color/white"/>
     </LinearLayout>
+
+     <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
