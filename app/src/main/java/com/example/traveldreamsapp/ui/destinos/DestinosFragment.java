@@ -46,19 +46,38 @@ public class DestinosFragment extends Fragment implements DestinosAdapter.OnItem
 
     private void setupRecyclerView() {
         binding.navDestinos.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        // CORREGIDO: Pasar 'this' como OnItemClickListener al adaptador
         destinosAdapter = new DestinosAdapter(destinos, requireContext(), this);
         binding.navDestinos.setAdapter(destinosAdapter);
     }
 
     public void showDestinos() {
         Call<List<Destinos>> call = ApiClient.getClient().create(ApiService.class).getDestinos();
-        call.enqueue(new Callback<List<Destinos>>(){
+        call.enqueue(new Callback<List<Destinos>>() {
             @Override
             public void onResponse(Call<List<Destinos>> call, Response<List<Destinos>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     destinos.clear();
-                    destinos.addAll(response.body());
+
+                    long now = System.currentTimeMillis();
+
+                    for (Destinos destino : response.body()) {
+                        try {
+                            // Adaptamos el formato de fecha: 2025-10-19T07:43:18-03:00 => 2025-10-19T07:43:18-0300
+                            String fechaOriginal = destino.getFecha_salida();
+                            String fechaAdaptada = fechaOriginal.replaceAll(":(\\d\\d)$", "$1");
+
+                            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+                            java.util.Date fechaSalida = sdf.parse(fechaAdaptada);
+
+                            if (fechaSalida != null && fechaSalida.getTime() > now) {
+                                destinos.add(destino);
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     destinosAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "ERROR: " + response.message(), Toast.LENGTH_SHORT).show();
@@ -71,6 +90,8 @@ public class DestinosFragment extends Fragment implements DestinosAdapter.OnItem
             }
         });
     }
+
+
 
     @Override
     public void onItemClick(Destinos destino) {
