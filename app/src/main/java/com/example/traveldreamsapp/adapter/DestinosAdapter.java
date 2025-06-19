@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide; //Permite mostrar imagenes desde URLs
+import com.bumptech.glide.Glide;
 import com.example.traveldreamsapp.R;
 import com.example.traveldreamsapp.models.Destinos;
 
@@ -22,17 +22,16 @@ public class DestinosAdapter extends RecyclerView.Adapter<DestinosAdapter.ViewHo
 
     private final List<Destinos> destinos;
     private final Context context;
-    private final OnItemClickListener listener; // Añadido el listener
+    private final OnItemClickListener listener;
 
-    // Interfaz para manejar clics en los ítems
     public interface OnItemClickListener {
         void onItemClick(Destinos destino);
     }
 
-    public DestinosAdapter(List<Destinos> destinos, Context context, OnItemClickListener listener) { // Modificado constructor
+    public DestinosAdapter(List<Destinos> destinos, Context context, OnItemClickListener listener) {
         this.destinos = destinos;
         this.context = context;
-        this.listener = listener; // Inicializa el listener
+        this.listener = listener;
     }
 
     @NonNull
@@ -54,7 +53,6 @@ public class DestinosAdapter extends RecyclerView.Adapter<DestinosAdapter.ViewHo
 
         holder.tv_nombre_Destino.setText(destino.getNombre_Destino());
 
-        // Limpiar la hora y quedarte solo con la fecha si querés
         String fechaLimpia = destino.getFecha_salida();
         if (fechaLimpia != null && fechaLimpia.contains("T")) {
             fechaLimpia = fechaLimpia.split("T")[0];
@@ -67,24 +65,31 @@ public class DestinosAdapter extends RecyclerView.Adapter<DestinosAdapter.ViewHo
         if (destino.getImage() != null && !destino.getImage().isEmpty()) {
             Glide.with(context).load(destino.getImage()).into(holder.iv_image);
         } else {
-            holder.iv_image.setImageResource(R.drawable.ic_launcher_background); // O una imagen por defecto
+            holder.iv_image.setImageResource(R.drawable.ic_launcher_background);
         }
 
-        // Añadir el listener al botón "Comprar"
+        // Mostrar "AGOTADO" si no hay cupos
+        if (destino.getCantidad_Disponible() == 0) {
+            holder.btn_comprar.setEnabled(false);
+            holder.btn_comprar.setText("AGOTADO");
+            holder.btn_comprar.setBackgroundColor(context.getResources().getColor(android.R.color.darker_gray));
+            holder.btn_comprar.setAlpha(0.6f); // Más visual
+        }
+
+        // Clicks
         holder.btn_comprar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener != null) {
+                if (listener != null && destino.getCantidad_Disponible() > 0) {
                     listener.onItemClick(destino);
                 }
             }
         });
 
-        // Opcional: Si quieres que todo el item sea clickeable
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener != null) {
+                if (listener != null && destino.getCantidad_Disponible() > 0) {
                     listener.onItemClick(destino);
                 }
             }
