@@ -33,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RegistroActivity extends AppCompatActivity {
 
     // Constante con la URL completa
-    private static final String BASE_URL = "https://dreamtravel.pythonanywhere.com/";
+    private static final String BASE_URL = "https://dreamtravelmp.pythonanywhere.com/";
     private static final String TAG = "RegistroActivity";
     private static final String PREF_NAME = "registro_pref";
 

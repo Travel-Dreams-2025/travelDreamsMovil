@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PasswordResetClient {
 
-    private static final String BASE_URL = "https://dreamtravel.pythonanywhere.com/api/";
+    private static final String BASE_URL = "https://dreamtravelmp.pythonanywhere.com/api/";
     private static Retrofit retrofit;
 
     public static Retrofit getInstance() {

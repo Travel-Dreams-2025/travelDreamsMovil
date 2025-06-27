@@ -110,7 +110,7 @@ public class EditDataActivity extends AppCompatActivity {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://dreamtravel.pythonanywhere.com/")
+                .baseUrl("https://dreamtravelmp.pythonanywhere.com/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

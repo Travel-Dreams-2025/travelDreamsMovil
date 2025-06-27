@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
         OkHttpClient client = new OkHttpClient.Builder().build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://dreamtravel.pythonanywhere.com/")
+                .baseUrl("https://dreamtravelmp.pythonanywhere.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

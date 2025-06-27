@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class RetrofitClient {
 
-    private static final String BASE_URL = "https://dreamtravel.pythonanywhere.com/";
+    private static final String BASE_URL = "https://dreamtravelmp.pythonanywhere.com/";
 
     public static Retrofit getRetrofitInstance(String token) {
         OkHttpClient client = new OkHttpClient.Builder()

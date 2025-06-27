@@ -7,7 +7,7 @@ public class ApiClient {
     private static Retrofit retrofit;
     public static Retrofit getClient (){
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://dreamtravel.pythonanywhere.com/api/v1/") // Actualizado [cite: 1]
+                .baseUrl("https://dreamtravelmp.pythonanywhere.com/api/v1/") // Actualizado [cite: 1]
                 .addConverterFactory(GsonConverterFactory.create()) //Gson
                 .build();
         return retrofit;
