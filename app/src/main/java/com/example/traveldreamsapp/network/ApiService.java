@@ -55,18 +55,18 @@ public interface ApiService {
 
 // Inicia CARRITO
 
-    @GET("api/v1/cart/")
+    @GET("api/v1/carrito/")
     Call<List<Carrito>> obtenerCarrito();
 
-    @POST("api/v1/cart/add/")
+    @POST("api/v1/carrito/add_item/")
     Call<Void> agregarAlCarrito(
             @Body AddToCartRequest request
     );
 
-    @DELETE("api/v1/cart/remove/{id_compra}/")
+    @DELETE("api/v1/carrito/{id_compra}/")
     Call<Void> eliminarItem(@Path("id_compra") int idCompra);
 
-    @PUT("api/v1/cart/{id_compra}/update-quantity/")
+    @PUT("api/v1/carrito/{id_compra}/")
     Call<Void> actualizarCantidad(
             @Path("id_compra") int idCompra,
             @Body UpdateQuantityRequest request
